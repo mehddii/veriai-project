@@ -8,7 +8,6 @@ import {
   Shield,
   Sparkles,
   TrendingUp,
-  Zap,
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { useNavigate } from "react-router";
@@ -187,55 +186,66 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className={`rounded-[1.8rem] border p-5 ${card}`}
+          className={`rounded-[1.9rem] border p-5 ${card}`}
         >
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
-              <Lock className="h-5 w-5" />
-            </div>
-            <div>
-              <div className={`text-[11px] uppercase tracking-[0.16em] ${muted}`}>Guest mode</div>
-              <h3 className={`text-[18px] font-semibold tracking-[-0.03em] ${title}`}>Unlock the full review workflow</h3>
-            </div>
+          <div className="mb-4">
+            <div className={`text-[11px] uppercase tracking-[0.18em] ${muted}`}>Trust notes</div>
+            <h3 className={`mt-2 text-[24px] font-semibold leading-[1.06] tracking-[-0.04em] ${title}`}>
+              Built for review contexts where evidence matters.
+            </h3>
           </div>
 
-          <p className={`text-[13px] leading-6 ${text}`}>
-            Save scans, track detection history, and keep a cleaner audit trail for repeated reviews.
+          <p className={`text-[13px] leading-7 ${text}`}>
+            The guest surface should reassure a professor or reviewer before they sign in. It explains how the tool behaves, then gets out of the way.
           </p>
 
           <div className="mt-5 space-y-3">
             {[
-              { icon: Clock, text: "Unlimited scan history" },
-              { icon: BarChart3, text: "Team-level analytics" },
-              { icon: Zap, text: "Faster multi-model checks" },
-              { icon: Shield, text: "API and webhook access" },
+              { icon: Shield, text: "Structured confidence and sentence-level inspection" },
+              { icon: BarChart3, text: "Readable signal breakdowns instead of abstract hype metrics" },
+              { icon: Clock, text: "A workflow suited to repeated classroom or research review" },
             ].map((benefit) => (
-              <div key={benefit.text} className={`flex items-center gap-3 rounded-2xl border px-3 py-3 ${mutedCard}`}>
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+              <div key={benefit.text} className={`flex items-start gap-3 rounded-[1.4rem] border px-3 py-3 ${mutedCard}`}>
+                <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
                   <benefit.icon className="h-4 w-4" />
                 </div>
-                <span className={`text-[12px] ${text}`}>{benefit.text}</span>
+                <span className={`text-[12.5px] leading-6 ${text}`}>{benefit.text}</span>
               </div>
             ))}
           </div>
 
-          <button
-            onClick={() => navigate("/login")}
-            className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3.5 text-white transition-all hover:bg-blue-500"
-            style={{ boxShadow: "0 18px 30px -20px rgba(37,99,235,0.9)" }}
-          >
-            <Sparkles className="h-4 w-4" />
-            Log In to Save Scans
-          </button>
+          <div className={`mt-5 rounded-[1.45rem] border p-4 ${mutedCard}`}>
+            <div className="mb-3 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+                <Lock className="h-4 w-4" />
+              </div>
+              <div>
+                <div className={`text-[11px] uppercase tracking-[0.16em] ${muted}`}>When sign-in helps</div>
+                <div className={`text-[14px] font-semibold ${title}`}>Save a real review trail</div>
+              </div>
+            </div>
+            <p className={`text-[12.5px] leading-6 ${text}`}>
+              Create an account when you need saved history, repeat submissions, or a persistent record across reviews.
+            </p>
 
-          <div className={`mt-5 rounded-[1.2rem] border p-4 ${mutedCard}`}>
-            <div className={`mb-3 text-[11px] uppercase tracking-[0.16em] ${muted}`}>Free plan limits</div>
+            <button
+              onClick={() => navigate("/login")}
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3.5 text-white transition-all hover:bg-blue-500"
+              style={{ boxShadow: "0 18px 30px -20px rgba(37,99,235,0.9)" }}
+            >
+              <Sparkles className="h-4 w-4" />
+              Log In to Save Scans
+            </button>
+          </div>
+
+          <div className={`mt-5 rounded-[1.45rem] border p-4 ${mutedCard}`}>
+            <div className={`mb-3 text-[11px] uppercase tracking-[0.18em] ${muted}`}>Guest access limits</div>
             <div className="space-y-2.5">
               {[
                 { label: "Scans per day", value: "3" },
                 { label: "Max file size", value: "10 MB" },
                 { label: "History saved", value: "None" },
-                { label: "Models", value: "Standard" },
+                { label: "Review history", value: "Account required" },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between">
                   <span className={`text-[12px] ${text}`}>{item.label}</span>

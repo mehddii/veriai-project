@@ -58,6 +58,10 @@ export function NeuralBackground() {
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const dark = isDarkRef.current;
+      if (!dark) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
       time += 0.016;
 
       // Draw connections first (behind nodes)
@@ -68,13 +72,11 @@ export function NeuralBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < MAX_DIST) {
-            const alpha = (1 - dist / MAX_DIST) * (dark ? 0.06 : 0.04);
+            const alpha = (1 - dist / MAX_DIST) * 0.06;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = dark
-              ? `rgba(99, 102, 241, ${alpha})`
-              : `rgba(79, 70, 229, ${alpha})`;
+            ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -93,26 +95,16 @@ export function NeuralBackground() {
 
         if (node.isPulse) {
           const pulse = 0.5 + 0.5 * Math.sin(time * 2.5 + node.pulsePhase);
-          if (dark) {
-            r = 139; g = 92; b = 246;
-            fillAlpha = 0.15 + pulse * 0.12;
-          } else {
-            r = 79; g = 70; b = 229;
-            fillAlpha = 0.10 + pulse * 0.08;
-          }
+          r = 139; g = 92; b = 246;
+          fillAlpha = 0.15 + pulse * 0.12;
           // Glow for pulse nodes
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius * 4, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${fillAlpha * 0.15})`;
           ctx.fill();
         } else {
-          if (dark) {
-            r = 99; g = 102; b = 241;
-            fillAlpha = 0.15;
-          } else {
-            r = 79; g = 70; b = 229;
-            fillAlpha = 0.10;
-          }
+          r = 99; g = 102; b = 241;
+          fillAlpha = 0.15;
         }
 
         ctx.beginPath();

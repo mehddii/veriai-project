@@ -16,7 +16,7 @@ export function Header({ variant = "auth" }: HeaderProps) {
 
   const shell = isDark
     ? "border-white/10 bg-slate-950/72 text-slate-100 shadow-[0_18px_44px_-24px_rgba(0,0,0,0.7)]"
-    : "border-slate-200/90 bg-white/86 text-slate-900 shadow-[0_18px_44px_-24px_rgba(15,23,42,0.18)]";
+    : "border-[#ddd3c5] bg-[#fffdfa]/92 text-slate-900 shadow-[0_18px_44px_-24px_rgba(15,23,42,0.12)]";
   const textPrimary = isDark ? "text-slate-100" : "text-slate-900";
   const textSecondary = isDark ? "text-slate-400" : "text-slate-500";
   const navActive = isDark
@@ -24,13 +24,13 @@ export function Header({ variant = "auth" }: HeaderProps) {
     : "bg-blue-50 text-blue-700";
   const navDefault = isDark
     ? "text-slate-400 hover:bg-white/6 hover:text-slate-100"
-    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900";
+    : "text-slate-500 hover:bg-[#f3eee6] hover:text-slate-900";
   const themeBtn = isDark
     ? "text-slate-400 hover:bg-white/6 hover:text-slate-100"
-    : "text-slate-400 hover:bg-slate-100 hover:text-slate-800";
+    : "text-slate-400 hover:bg-[#f3eee6] hover:text-slate-800";
   const dropdownBg = isDark
     ? "border-white/10 bg-slate-950/96 shadow-[0_28px_72px_-28px_rgba(0,0,0,0.7)]"
-    : "border-slate-200 bg-white/96 shadow-[0_28px_72px_-28px_rgba(15,23,42,0.24)]";
+    : "border-[#ddd3c5] bg-[#fffdfa]/96 shadow-[0_28px_72px_-28px_rgba(15,23,42,0.18)]";
 
   const navItems = [
     { label: "Dashboard", icon: LayoutDashboard },

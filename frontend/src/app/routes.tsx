@@ -15,7 +15,7 @@ function Root() {
       style={{
         background: isDark
           ? "radial-gradient(circle at top, rgba(37,99,235,0.14), transparent 28%), #08111f"
-          : "radial-gradient(circle at top, rgba(219,234,254,0.9), transparent 32%), #f8fafc",
+          : "radial-gradient(circle at top, rgba(255,250,240,0.95), transparent 30%), linear-gradient(180deg, #fdfbf7 0%, #f5efe4 100%)",
       }}
     >
       <AmbientBackground />

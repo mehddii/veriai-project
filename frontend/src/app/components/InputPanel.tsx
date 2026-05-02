@@ -42,37 +42,51 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
   const fileSize = file ? `${(file.size / 1024).toFixed(1)} KB` : null;
 
   const cardStyle: React.CSSProperties = {
-    background: isDark ? "rgba(15, 23, 42, 0.78)" : "rgba(255, 255, 255, 0.94)",
-    border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(226,232,240,1)",
+    background: isDark ? "rgba(15, 23, 42, 0.78)" : "rgba(255, 253, 250, 0.94)",
+    border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(216,209,197,1)",
     boxShadow: isDark
       ? "0 28px 80px -44px rgba(2,6,23,0.95)"
-      : "0 24px 70px -42px rgba(15,23,42,0.18)",
+      : "0 24px 70px -42px rgba(15,23,42,0.14)",
   };
 
-  const tabBarBg = isDark ? "bg-white/5" : "bg-slate-100";
+  const tabBarBg = isDark ? "bg-white/5" : "bg-[#f3eee6]";
   const tabActive = isDark
     ? "bg-slate-900 text-slate-50 shadow-sm"
-    : "bg-white text-slate-900 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.24)]";
+    : "bg-[#fffdfa] text-slate-900 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.18)]";
   const tabDefault = isDark
     ? "text-slate-400 hover:text-slate-100"
     : "text-slate-500 hover:text-slate-800";
   const textareaClass = isDark
     ? "border-white/10 bg-white/4 text-slate-100 placeholder:text-slate-500 focus:border-blue-400 focus:bg-white/6"
-    : "border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-blue-300 focus:bg-white";
+    : "border-[#d8d1c5] bg-[#fffdfa] text-slate-900 placeholder:text-slate-400 focus:border-blue-300 focus:bg-white";
   const counterText = isDark ? "text-slate-500" : "text-slate-400";
   const dropZone = isDark
     ? `border-white/10 bg-white/3 hover:border-blue-400/40 ${dragOver ? "border-blue-400/60 bg-blue-500/8" : ""}`
-    : `border-slate-200 bg-slate-50 hover:border-blue-300 ${dragOver ? "border-blue-400 bg-blue-50" : ""}`;
+    : `border-[#d8d1c5] bg-[#fffdfa] hover:border-blue-300 ${dragOver ? "border-blue-400 bg-blue-50/60" : ""}`;
   const dropText = isDark ? "text-slate-200" : "text-slate-700";
   const dropMuted = isDark ? "text-slate-500" : "text-slate-400";
   const fileCard = isDark
     ? "border-white/10 bg-white/3"
-    : "border-slate-200 bg-slate-50";
+    : "border-[#d8d1c5] bg-[#fffdfa]";
 
   const canSubmit = mode === "text" ? !!text.trim() : !!file;
 
   return (
     <div className="rounded-[1.8rem] p-1.5" style={cardStyle}>
+      <div className="mb-4 flex flex-col gap-2 px-2 pt-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className={`text-[10px] uppercase tracking-[0.18em] ${isDark ? "text-slate-500" : "text-slate-400"}`}>
+            Submission
+          </div>
+          <h3 className={`mt-1 text-[18px] font-semibold tracking-[-0.03em] ${isDark ? "text-slate-50" : "text-slate-900"}`}>
+            Submit a passage for review
+          </h3>
+        </div>
+        <p className={`max-w-[30ch] text-[12px] leading-6 ${isDark ? "text-slate-400" : "text-slate-600"}`}>
+          Longer excerpts produce more stable signals. Switch to file upload when formatting matters.
+        </p>
+      </div>
+
       {/* Tab Switcher */}
       <div className={`mb-2 flex items-center gap-1 rounded-[1.2rem] p-1 ${tabBarBg}`}>
         {[
@@ -107,9 +121,15 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Paste or type the text you want to analyze for AI-generated content..."
+                placeholder="Paste the excerpt, paragraph, or response you want to inspect for AI-generated patterns..."
                 className={`h-[240px] w-full resize-none rounded-[1.35rem] border p-5 text-[14px] outline-none transition-all ${textareaClass}`}
-                style={{ lineHeight: "1.8" }}
+                style={{
+                  lineHeight: "1.8",
+                  backgroundImage: isDark
+                    ? "linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)"
+                    : "linear-gradient(to bottom, rgba(148,163,184,0.14) 1px, transparent 1px)",
+                  backgroundSize: "100% 2rem",
+                }}
               />
               <div className={`absolute bottom-3 right-3 flex items-center gap-3 text-[10px] ${counterText}`}>
                 <span style={{ fontVariantNumeric: "tabular-nums" }}>{wordCount} words</span>

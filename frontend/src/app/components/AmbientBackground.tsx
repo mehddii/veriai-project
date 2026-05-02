@@ -19,7 +19,7 @@ export function AmbientBackground() {
         style={{
           background: isDark
             ? "radial-gradient(ellipse at center, #06070D 0%, #030408 100%)"
-            : "radial-gradient(ellipse at center, #FAFBFF 0%, #F0F1F8 100%)",
+            : "radial-gradient(ellipse at center, #fdfbf7 0%, #f5efe4 100%)",
         }}
       />
 
@@ -81,50 +81,50 @@ export function AmbientBackground() {
       {/* ── LIGHT MODE ────────────────────────────────────────────────── */}
       {!isDark && (
         <>
-          {/* Orb 1 — Soft Lavender */}
+          {/* Orb 1 — Warm paper bloom */}
           <div
             className="absolute"
             style={{
-              top: "-30%",
-              left: "-15%",
-              width: "75vw",
-              height: "65vh",
+              top: "-18%",
+              left: "-12%",
+              width: "72vw",
+              height: "58vh",
               borderRadius: "50%",
               background:
-                "radial-gradient(ellipse at center, rgba(224,231,255,0.50) 0%, rgba(224,231,255,0.20) 40%, transparent 70%)",
-              filter: "blur(200px)",
+                "radial-gradient(ellipse at center, rgba(255,250,240,0.70) 0%, rgba(255,250,240,0.22) 46%, transparent 72%)",
+              filter: "blur(180px)",
               animation: "vOrb1 24s ease-in-out infinite",
             }}
           />
 
-          {/* Orb 2 — Pale Sky Blue */}
+          {/* Orb 2 — soft blue wash */}
           <div
             className="absolute"
             style={{
-              top: "15%",
-              right: "-20%",
-              width: "60vw",
-              height: "55vh",
+              top: "8%",
+              right: "-14%",
+              width: "54vw",
+              height: "48vh",
               borderRadius: "50%",
               background:
-                "radial-gradient(ellipse at center, rgba(219,234,254,0.40) 0%, rgba(219,234,254,0.16) 40%, transparent 70%)",
-              filter: "blur(220px)",
+                "radial-gradient(ellipse at center, rgba(219,234,254,0.34) 0%, rgba(219,234,254,0.12) 42%, transparent 72%)",
+              filter: "blur(180px)",
               animation: "vOrb2 30s ease-in-out infinite",
             }}
           />
 
-          {/* Orb 3 — Blush Pink */}
+          {/* Orb 3 — amber paper warmth */}
           <div
             className="absolute"
             style={{
-              bottom: "-18%",
-              left: "20%",
-              width: "50vw",
-              height: "45vh",
+              bottom: "-16%",
+              left: "16%",
+              width: "44vw",
+              height: "38vh",
               borderRadius: "50%",
               background:
-                "radial-gradient(ellipse at center, rgba(252,231,243,0.25) 0%, transparent 65%)",
-              filter: "blur(180px)",
+                "radial-gradient(ellipse at center, rgba(254,243,199,0.24) 0%, transparent 68%)",
+              filter: "blur(160px)",
               animation: "vOrb3 20s ease-in-out infinite",
             }}
           />
@@ -137,22 +137,23 @@ export function AmbientBackground() {
         style={{
           backgroundImage: isDark
             ? "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)"
-            : "radial-gradient(circle, rgba(0,0,0,0.025) 1px, transparent 1px)",
-          backgroundSize: "31px 31px",
+            : "linear-gradient(rgba(120,113,108,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(120,113,108,0.04) 1px, transparent 1px)",
+          backgroundSize: isDark ? "31px 31px" : "100% 28px, 28px 100%",
+          opacity: isDark ? 1 : 0.42,
         }}
       />
 
       {/* ── BONUS — Scan Line Sweep ───────────────────────────────── */}
-      <div
-        className="absolute left-0 right-0"
-        style={{
-          height: "1px",
-          background: isDark
-            ? "linear-gradient(90deg, rgba(79,70,229,0.04) 0%, rgba(79,70,229,0.08) 50%, rgba(79,70,229,0.04) 100%)"
-            : "linear-gradient(90deg, rgba(79,70,229,0.02) 0%, rgba(79,70,229,0.05) 50%, rgba(79,70,229,0.02) 100%)",
-          animation: "vScanLine 9s linear infinite",
-        }}
-      />
+      {isDark && (
+        <div
+          className="absolute left-0 right-0"
+          style={{
+            height: "1px",
+            background: "linear-gradient(90deg, rgba(79,70,229,0.04) 0%, rgba(79,70,229,0.08) 50%, rgba(79,70,229,0.04) 100%)",
+            animation: "vScanLine 9s linear infinite",
+          }}
+        />
+      )}
 
       <style>{`
         @keyframes vOrb1 {
