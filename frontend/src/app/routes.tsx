@@ -11,8 +11,12 @@ function Root() {
 
   return (
     <div
-      className="min-h-screen font-['Inter',sans-serif] transition-colors duration-300"
-      style={{ background: isDark ? "#050505" : "#FBFBFD" }}
+      className="min-h-screen overflow-x-hidden transition-colors duration-300"
+      style={{
+        background: isDark
+          ? "radial-gradient(circle at top, rgba(37,99,235,0.14), transparent 28%), #08111f"
+          : "radial-gradient(circle at top, rgba(219,234,254,0.9), transparent 32%), #f8fafc",
+      }}
     >
       <AmbientBackground />
       <NeuralBackground />

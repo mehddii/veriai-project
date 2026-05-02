@@ -27,20 +27,9 @@ export function LoggedInDashboard() {
     }
   }, [isLoggedIn, authLoading, navigate]);
 
-  const textPrimary = isDark ? "text-[rgba(255,255,255,0.92)]" : "text-[#0F111A]";
-  const textMuted = isDark ? "text-[rgba(255,255,255,0.32)]" : "text-[#6B7280]";
-  const badgeBg = isDark
-    ? "border-[rgba(99,102,241,0.18)] bg-[rgba(99,102,241,0.06)] text-[rgba(165,180,252,0.8)]"
-    : "border-[rgba(99,102,241,0.12)] bg-[rgba(99,102,241,0.05)] text-[#4338CA]";
-
-  const welcomeGlass: React.CSSProperties = {
-    background: isDark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.5)",
-    backdropFilter: "blur(40px)",
-    border: isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.05)",
-    boxShadow: isDark
-      ? "0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)"
-      : "0 8px 40px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.7)",
-  };
+  const textPrimary = isDark ? "text-slate-50" : "text-slate-900";
+  const textSecondary = isDark ? "text-slate-300" : "text-slate-600";
+  const textMuted = isDark ? "text-slate-500" : "text-slate-400";
 
   const handleAnalyze = async (payload: AnalyzePayload) => {
     if (!token) {
@@ -85,59 +74,48 @@ export function LoggedInDashboard() {
     <div>
       <Header variant="auth" />
 
-      <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6">
-        <div className="flex flex-col gap-6 lg:flex-row">
-          <div className="flex-1 min-w-0 space-y-6">
+      <main className="mx-auto max-w-[1440px] px-4 pb-10 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-[1.12fr_0.88fr] lg:items-start">
+          <div className="space-y-6">
             <AnimatePresence>
               {!results && !isAnalyzing && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
+                <motion.section
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-4"
+                  className="rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-[0_30px_80px_-48px_rgba(15,23,42,0.25)] dark:border-white/10 dark:bg-slate-950/76 dark:shadow-[0_30px_80px_-48px_rgba(2,6,23,0.95)]"
                 >
-                  {/* Welcome strip */}
-                  <div className="flex items-center justify-between rounded-2xl px-4 py-3" style={welcomeGlass}>
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg text-[11px] text-white"
-                        style={{ fontWeight: 600, background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}>
-                        {user?.initials || "JD"}
+                  <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+                    <div className="max-w-[56ch]">
+                      <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-[11px] font-medium text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-200">
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                        Detection workspace
                       </div>
-                      <div>
-                        <span className={`text-[12px] ${textPrimary}`} style={{ fontWeight: 500 }}>
-                          Welcome back, {user?.name?.split(" ")[0] || "User"}
-                        </span>
-                        <p className={`text-[10px] ${textMuted}`}>{plan} Plan  ·  {usageLabel}</p>
-                      </div>
+                      <h1 className={`text-[clamp(2rem,4vw,3rem)] leading-[1.05] tracking-[-0.05em] ${textPrimary}`}>
+                        Welcome back, {user?.name?.split(" ")[0] || "User"}.
+                      </h1>
+                      <p className={`mt-4 text-[14px] leading-7 ${textSecondary}`}>
+                        Submit a new scan, review suspicious passages, and keep the evidence trail readable for editorial or academic review.
+                      </p>
                     </div>
-                    <div className="hidden sm:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px]"
-                      style={{
-                        background: "rgba(20,184,166,0.06)",
-                        border: "1px solid rgba(20,184,166,0.1)",
-                        color: isDark ? "rgba(94,234,212,0.7)" : "#0F766E",
-                        fontWeight: 500,
-                      }}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      All systems operational
-                    </div>
-                  </div>
 
-                  <div className="text-center lg:text-left">
-                    <div className={`mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[11px] ${badgeBg}`}
-                      style={{ fontWeight: 500 }}>
-                      <ShieldCheck className="h-3 w-3" />
-                      Enterprise-grade AI detection · Powered by 6 models
+                    <div className="grid gap-3 sm:grid-cols-3 xl:w-[370px] xl:grid-cols-1">
+                      {[
+                        { label: "Plan", value: plan },
+                        { label: "Usage", value: usageLabel },
+                        { label: "Status", value: "Operational" },
+                      ].map((item) => (
+                        <div key={item.label} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-white/8 dark:bg-white/4">
+                          <div className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>{item.label}</div>
+                          <div className={`mt-1 text-[13px] font-semibold ${item.label === "Status" ? "text-green-600 dark:text-green-300" : textPrimary}`}>
+                            {item.value}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <h1 className={`mb-2 tracking-tight ${textPrimary}`}
-                      style={{ fontSize: "30px", fontWeight: 700, lineHeight: 1.2, letterSpacing: "-0.5px" }}>
-                      Detect AI-Generated Content
-                    </h1>
-                    <p className={`text-[13px] max-w-xl ${textMuted}`} style={{ lineHeight: "1.7" }}>
-                      Paste text or upload a document to instantly analyze whether content was written by a human or generated by AI.
-                    </p>
                   </div>
-                </motion.div>
+                </motion.section>
               )}
             </AnimatePresence>
 
@@ -149,20 +127,16 @@ export function LoggedInDashboard() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-center justify-center py-16"
+                  className="flex flex-col items-center justify-center rounded-[2rem] border border-slate-200 bg-white/90 py-16 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.2)] dark:border-white/10 dark:bg-slate-950/76 dark:shadow-[0_24px_60px_-40px_rgba(2,6,23,0.95)]"
                 >
                   <div className="relative mb-5">
-                    <div className="h-16 w-16 rounded-2xl flex items-center justify-center"
-                      style={{ background: "rgba(99,102,241,0.08)" }}>
-                      <Sparkles className="h-7 w-7 text-indigo-400 animate-pulse" />
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-300">
+                      <Sparkles className="h-7 w-7 animate-pulse" />
                     </div>
-                    <div className="absolute inset-0 h-16 w-16 animate-ping rounded-2xl"
-                      style={{ background: "rgba(99,102,241,0.04)" }} />
+                    <div className="absolute inset-0 h-16 w-16 animate-ping rounded-2xl bg-blue-500/8" />
                   </div>
-                  <p className={`text-[13px] ${textMuted}`}>Analyzing content patterns...</p>
-                  <p className={`text-[10px] mt-1 ${isDark ? "text-white/15" : "text-slate-400"}`}>
-                    Running 6-model detection pipeline
-                  </p>
+                  <p className={`text-[14px] ${textSecondary}`}>Analyzing content patterns...</p>
+                  <p className={`mt-1 text-[11px] ${textMuted}`}>Running the 6-model detection pipeline</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -170,7 +144,7 @@ export function LoggedInDashboard() {
             {results && <ResultsPanel data={results} />}
           </div>
 
-          <div className="w-full lg:w-[310px] shrink-0">
+          <div className="w-full lg:sticky lg:top-24">
             <Sidebar variant="auth" />
           </div>
         </div>

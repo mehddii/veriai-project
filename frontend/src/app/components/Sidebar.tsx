@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { Clock, FileText, TrendingUp, BarChart3, ArrowUpRight, Lock, Sparkles, Zap, Shield } from "lucide-react";
+import {
+  ArrowUpRight,
+  BarChart3,
+  Clock,
+  FileText,
+  Lock,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { listSubmissionsRequest, SubmissionListItemResponse } from "../services/api";
-
-const fallbackHistory = [
-  { title: "Research Paper - Methodology", score: 92, time: "2 min ago", status: "ai" },
-  { title: "Blog Post - Introduction", score: 18, time: "15 min ago", status: "human" },
-  { title: "Essay - Climate Change", score: 67, time: "1 hr ago", status: "mixed" },
-  { title: "Product Description v2", score: 95, time: "3 hrs ago", status: "ai" },
-  { title: "Cover Letter - Marketing", score: 12, time: "Yesterday", status: "human" },
-];
 
 const scanData = [40, 65, 48, 80, 72, 90, 75, 95, 88, 100, 92, 98];
 const accuracyData = [94, 96, 95, 97, 96, 98, 97, 99, 98, 97, 99, 98];
@@ -30,7 +32,6 @@ function formatRelativeTime(isoDate: string): string {
   }
 
   const deltaSeconds = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
-
   if (deltaSeconds < 60) {
     return "Just now";
   }
@@ -91,27 +92,33 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
-  const W = 68;
-  const H = 28;
+  const width = 72;
+  const height = 26;
   const points = data
-    .map((d, i) => `${(i / (data.length - 1)) * W},${H - ((d - min) / range) * (H - 4) - 2}`)
+    .map((datum, index) => {
+      const x = (index / (data.length - 1)) * width;
+      const y = height - ((datum - min) / range) * (height - 4) - 2;
+      return `${x},${y}`;
+    })
     .join(" ");
 
   return (
-    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="overflow-visible">
-      <defs>
-        <linearGradient id={`sg-${color.replace("#", "")}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor={color} stopOpacity="0.4" />
-          <stop offset="100%" stopColor={color} stopOpacity="1" />
-        </linearGradient>
-      </defs>
-      <polyline points={points} fill="none" stroke={`url(#sg-${color.replace("#", "")})`}
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible">
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-interface SidebarProps { variant?: "guest" | "auth"; }
+interface SidebarProps {
+  variant?: "guest" | "auth";
+}
 
 export function Sidebar({ variant = "auth" }: SidebarProps) {
   const { isDark, token, isLoggedIn } = useApp();
@@ -154,46 +161,23 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
     };
   }, [variant, isLoggedIn, token]);
 
-  const glass: React.CSSProperties = {
-    background: isDark ? "rgba(15,17,26,0.55)" : "rgba(255,255,255,0.65)",
-    backdropFilter: isDark ? "blur(40px) saturate(1.4)" : "blur(40px) saturate(1.3)",
-    WebkitBackdropFilter: isDark ? "blur(40px) saturate(1.4)" : "blur(40px) saturate(1.3)",
-    border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(255,255,255,0.80)",
-    boxShadow: isDark
-      ? "0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.04)"
-      : "0 8px 32px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
-  };
+  const card = isDark
+    ? "border-white/10 bg-slate-950/76 shadow-[0_26px_72px_-38px_rgba(2,6,23,0.95)]"
+    : "border-slate-200 bg-white/94 shadow-[0_24px_72px_-40px_rgba(15,23,42,0.18)]";
+  const mutedCard = isDark ? "border-white/8 bg-white/4" : "border-slate-200 bg-slate-50";
+  const title = isDark ? "text-slate-100" : "text-slate-900";
+  const text = isDark ? "text-slate-300" : "text-slate-600";
+  const muted = isDark ? "text-slate-500" : "text-slate-400";
+  const hoverRow = isDark ? "hover:bg-white/5" : "hover:bg-slate-50";
 
-  const textPrimary = isDark ? "text-[rgba(255,255,255,0.88)]" : "text-[#0F111A]";
-  const textSecondary = isDark ? "text-[rgba(255,255,255,0.48)]" : "text-[#4B5563]";
-  const textMuted = isDark ? "text-[rgba(255,255,255,0.25)]" : "text-[#9CA3AF]";
-  const hoverRow = isDark ? "hover:bg-[rgba(255,255,255,0.03)]" : "hover:bg-[rgba(0,0,0,0.02)]";
-
-  const getStatusBadge = (status: string, score: number) => {
-    const configs: Record<string, { bg: string; color: string; border: string }> = {
-      ai: {
-        bg: "rgba(220,60,60,0.06)",
-        color: isDark ? "rgba(252,165,165,0.75)" : "#B91C1C",
-        border: "rgba(220,60,60,0.1)",
-      },
-      human: {
-        bg: "rgba(20,184,166,0.06)",
-        color: isDark ? "rgba(94,234,212,0.75)" : "#0F766E",
-        border: "rgba(20,184,166,0.1)",
-      },
-      mixed: {
-        bg: "rgba(245,158,11,0.06)",
-        color: isDark ? "rgba(252,211,77,0.75)" : "#B45309",
-        border: "rgba(245,158,11,0.1)",
-      },
-    };
-    const c = configs[status] || configs.mixed;
-    return (
-      <span className="rounded-full px-2.5 py-0.5 text-[9px]"
-        style={{ fontWeight: 700, background: c.bg, color: c.color, border: `1px solid ${c.border}`, letterSpacing: "0.03em" }}>
-        {score}% AI
-      </span>
-    );
+  const statusBadge = (status: HistoryRow["status"], score: number) => {
+    if (status === "human") {
+      return "border-green-200 bg-green-50 text-green-800 dark:border-green-500/20 dark:bg-green-500/10 dark:text-green-200";
+    }
+    if (status === "ai") {
+      return "border-red-200 bg-red-50 text-red-800 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-200";
+    }
+    return "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-100";
   };
 
   if (variant === "guest") {
@@ -202,151 +186,149 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="rounded-2xl overflow-hidden"
-          style={glass}
+          transition={{ duration: 0.35 }}
+          className={`rounded-[1.8rem] border p-5 ${card}`}
         >
-          <div className="relative p-5 pb-6 overflow-hidden"
-            style={{ background: "linear-gradient(135deg, rgba(79,70,229,0.15), rgba(99,102,241,0.08))" }}>
-            <div className="absolute -top-6 -right-6 h-28 w-28 rounded-full bg-indigo-400/5 blur-2xl" />
-            <div className="relative">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{ background: "rgba(99,102,241,0.15)", backdropFilter: "blur(8px)" }}>
-                <Lock className="h-4 w-4 text-indigo-300" />
-              </div>
-              <h3 className={`${textPrimary} mb-1`} style={{ fontSize: "14px", fontWeight: 600 }}>
-                Unlock Full Access
-              </h3>
-              <p className={textSecondary} style={{ fontSize: "12px", lineHeight: 1.5 }}>
-                Save unlimited scans, access advanced analytics, and view your full history.
-              </p>
+          <div className="mb-4 flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+              <Lock className="h-5 w-5" />
+            </div>
+            <div>
+              <div className={`text-[11px] uppercase tracking-[0.16em] ${muted}`}>Guest mode</div>
+              <h3 className={`text-[18px] font-semibold tracking-[-0.03em] ${title}`}>Unlock the full review workflow</h3>
             </div>
           </div>
 
-          <div className="p-4 space-y-2.5">
+          <p className={`text-[13px] leading-6 ${text}`}>
+            Save scans, track detection history, and keep a cleaner audit trail for repeated reviews.
+          </p>
+
+          <div className="mt-5 space-y-3">
             {[
               { icon: Clock, text: "Unlimited scan history" },
-              { icon: BarChart3, text: "Advanced analytics dashboard" },
-              { icon: Zap, text: "Faster multi-model analysis" },
-              { icon: Shield, text: "API access & webhooks" },
-            ].map((b, i) => (
-              <div key={i} className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 items-center justify-center rounded-lg"
-                  style={{ background: "rgba(99,102,241,0.08)" }}>
-                  <b.icon className="h-3.5 w-3.5 text-indigo-400" />
+              { icon: BarChart3, text: "Team-level analytics" },
+              { icon: Zap, text: "Faster multi-model checks" },
+              { icon: Shield, text: "API and webhook access" },
+            ].map((benefit) => (
+              <div key={benefit.text} className={`flex items-center gap-3 rounded-2xl border px-3 py-3 ${mutedCard}`}>
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+                  <benefit.icon className="h-4 w-4" />
                 </div>
-                <span className={`text-[12px] ${textSecondary}`}>{b.text}</span>
+                <span className={`text-[12px] ${text}`}>{benefit.text}</span>
               </div>
             ))}
+          </div>
 
-            <button
-              onClick={() => navigate("/login")}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[12px] text-white transition-all hover:opacity-95"
-              style={{
-                fontWeight: 500,
-                background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-                boxShadow: "0 4px 20px rgba(99,102,241,0.25)",
-              }}
-            >
-              <Sparkles className="h-3.5 w-3.5" />
-              Log In to Save Scans
-            </button>
-            <button
-              onClick={() => navigate("/login")}
-              className={`flex w-full items-center justify-center gap-1 text-[11px] transition-all ${textMuted} hover:text-indigo-400`}
-            >
-              Create free account <ArrowUpRight className="h-3 w-3" />
-            </button>
+          <button
+            onClick={() => navigate("/login")}
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3.5 text-white transition-all hover:bg-blue-500"
+            style={{ boxShadow: "0 18px 30px -20px rgba(37,99,235,0.9)" }}
+          >
+            <Sparkles className="h-4 w-4" />
+            Log In to Save Scans
+          </button>
+
+          <div className={`mt-5 rounded-[1.2rem] border p-4 ${mutedCard}`}>
+            <div className={`mb-3 text-[11px] uppercase tracking-[0.16em] ${muted}`}>Free plan limits</div>
+            <div className="space-y-2.5">
+              {[
+                { label: "Scans per day", value: "3" },
+                { label: "Max file size", value: "10 MB" },
+                { label: "History saved", value: "None" },
+                { label: "Models", value: "Standard" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center justify-between">
+                  <span className={`text-[12px] ${text}`}>{item.label}</span>
+                  <span className={`text-[12px] font-semibold ${title}`}>{item.value}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
-
-        <div className="rounded-xl p-4" style={glass}>
-          <div className={`text-[9px] uppercase tracking-widest mb-3 ${textMuted}`} style={{ fontWeight: 700, letterSpacing: "0.14em" }}>
-            Free Plan Limits
-          </div>
-          <div className="space-y-2">
-            {[
-              { label: "Scans per day", value: "3" },
-              { label: "Max file size", value: "10 MB" },
-              { label: "History saved", value: "None" },
-              { label: "Models", value: "Standard" },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center justify-between">
-                <span className={`text-[11px] ${textSecondary}`}>{item.label}</span>
-                <span className={`text-[11px] ${textPrimary}`} style={{ fontWeight: 600 }}>{item.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     );
   }
 
-  // Auth sidebar
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3">
         {[
           {
-            label: "Total Scans", value: totalScans == null ? "--" : totalScans.toLocaleString(), icon: BarChart3,
-            color: "text-indigo-400", bg: "bg-indigo-500/8",
-            sparkData: scanData, sparkColor: "#6366f1", trend: "+12%",
+            label: "Total Scans",
+            value: totalScans == null ? "--" : totalScans.toLocaleString(),
+            icon: BarChart3,
+            accent: "text-blue-600 dark:text-blue-300",
+            badge: "+12%",
+            sparkData: scanData,
+            sparkColor: "#2563EB",
           },
           {
-            label: "Accuracy", value: "98.7%", icon: TrendingUp,
-            color: "text-emerald-400", bg: "bg-emerald-500/8",
-            sparkData: accuracyData, sparkColor: "#34d399", trend: "+0.3%",
+            label: "Accuracy",
+            value: "98.7%",
+            icon: TrendingUp,
+            accent: "text-green-600 dark:text-green-300",
+            badge: "+0.3%",
+            sparkData: accuracyData,
+            sparkColor: "#16A34A",
           },
-        ].map((s) => (
-          <div key={s.label} className="rounded-xl p-4" style={glass}>
-            <div className={`mb-2.5 flex h-8 w-8 items-center justify-center rounded-lg ${s.bg} ${s.color}`}>
-              <s.icon className="h-3.5 w-3.5" />
+        ].map((stat) => (
+          <div key={stat.label} className={`rounded-[1.5rem] border p-4 ${card}`}>
+            <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 ${stat.accent} dark:bg-white/6`}>
+              <stat.icon className="h-4 w-4" />
             </div>
-            <p className={`text-[18px] ${s.color}`} style={{ fontWeight: 700 }}>{s.value}</p>
-            <p className={`text-[9px] ${textMuted}`} style={{ fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              {s.label}
-            </p>
-            <div className="mt-2.5 flex items-end justify-between">
-              <Sparkline data={s.sparkData} color={s.sparkColor} />
-              <span className="text-[9px] text-emerald-400" style={{ fontWeight: 600 }}>{s.trend}</span>
+            <div className={`font-mono text-[20px] font-bold ${title}`}>{stat.value}</div>
+            <div className={`mt-1 text-[10px] uppercase tracking-[0.16em] ${muted}`}>{stat.label}</div>
+            <div className="mt-4 flex items-end justify-between gap-3">
+              <Sparkline data={stat.sparkData} color={stat.sparkColor} />
+              <span className="rounded-full bg-green-50 px-2 py-1 text-[10px] font-semibold text-green-700 dark:bg-green-500/10 dark:text-green-200">
+                {stat.badge}
+              </span>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="rounded-xl p-4" style={glass}>
+      <div className={`rounded-[1.8rem] border p-5 ${card}`}>
         <div className="mb-4 flex items-center justify-between">
-          <div className={`flex items-center gap-1.5 text-[11px] ${textMuted}`}>
-            <Clock className="h-3.5 w-3.5" />
-            <span style={{ fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", fontSize: "9px" }}>Recent Scans</span>
+          <div>
+            <div className={`text-[11px] uppercase tracking-[0.16em] ${muted}`}>Recent scans</div>
+            <h3 className={`mt-1 text-[18px] font-semibold tracking-[-0.03em] ${title}`}>Latest submissions</h3>
           </div>
-          <button className="flex items-center gap-0.5 text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors">
-            View all <ArrowUpRight className="h-2.5 w-2.5" />
+          <button className="flex items-center gap-1 text-[12px] font-medium text-blue-600 transition-colors hover:text-blue-500 dark:text-blue-300">
+            View all <ArrowUpRight className="h-3 w-3" />
           </button>
         </div>
-        <div className="space-y-0.5">
+
+        <div className="space-y-2">
           {historyLoading && (
-            <p className={`px-2.5 py-3 text-[10px] ${textMuted}`}>Loading submissions...</p>
+            <p className={`rounded-2xl border px-4 py-4 text-[12px] ${mutedCard} ${muted}`}>
+              Loading submissions...
+            </p>
           )}
 
           {!historyLoading && history.length === 0 && (
-            <p className={`px-2.5 py-3 text-[10px] ${textMuted}`}>
+            <p className={`rounded-2xl border px-4 py-4 text-[12px] ${mutedCard} ${muted}`}>
               No submissions yet. Run your first scan to populate history.
             </p>
           )}
 
-          {!historyLoading && history.length > 0 && history.map((h, i) => (
-            <div key={i} className={`flex items-center justify-between rounded-lg px-2.5 py-2.5 cursor-pointer transition-all ${hoverRow}`}>
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${isDark ? "bg-white/[0.03]" : "bg-slate-100/50"}`}>
-                  <FileText className={`h-3.5 w-3.5 ${textMuted}`} />
+          {!historyLoading && history.length > 0 && history.map((item) => (
+            <div
+              key={`${item.title}-${item.time}`}
+              className={`flex items-center justify-between rounded-[1.2rem] border border-transparent px-3 py-3 transition-all ${hoverRow}`}
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 dark:bg-white/6 dark:text-slate-400">
+                  <FileText className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className={`truncate text-[11px] ${textSecondary}`} style={{ fontWeight: 500 }}>{h.title}</p>
-                  <p className={`text-[9px] ${textMuted}`}>{h.time}</p>
+                  <p className={`truncate text-[12px] font-medium ${title}`}>{item.title}</p>
+                  <p className={`text-[11px] ${muted}`}>{item.time}</p>
                 </div>
               </div>
-              {getStatusBadge(h.status, h.score)}
+              <span className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold ${statusBadge(item.status, item.score)}`}>
+                {item.score}% AI
+              </span>
             </div>
           ))}
         </div>

@@ -41,45 +41,40 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
 
   const fileSize = file ? `${(file.size / 1024).toFixed(1)} KB` : null;
 
-  // Spatial glass card
   const cardStyle: React.CSSProperties = {
-    background: isDark ? "rgba(15,17,26,0.55)" : "rgba(255,255,255,0.65)",
-    backdropFilter: isDark ? "blur(40px) saturate(1.4)" : "blur(40px) saturate(1.3)",
-    WebkitBackdropFilter: isDark ? "blur(40px) saturate(1.4)" : "blur(40px) saturate(1.3)",
-    border: isDark
-      ? "1px solid rgba(255,255,255,0.06)"
-      : "1px solid rgba(255,255,255,0.80)",
+    background: isDark ? "rgba(15, 23, 42, 0.78)" : "rgba(255, 255, 255, 0.94)",
+    border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(226,232,240,1)",
     boxShadow: isDark
-      ? "0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.04)"
-      : "0 8px 32px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+      ? "0 28px 80px -44px rgba(2,6,23,0.95)"
+      : "0 24px 70px -42px rgba(15,23,42,0.18)",
   };
 
-  const tabBarBg = isDark ? "bg-[rgba(255,255,255,0.03)]" : "bg-[rgba(0,0,0,0.03)]";
+  const tabBarBg = isDark ? "bg-white/5" : "bg-slate-100";
   const tabActive = isDark
-    ? "bg-[rgba(255,255,255,0.07)] text-[rgba(255,255,255,0.9)] shadow-sm"
-    : "bg-white text-[#0F111A] shadow-sm";
+    ? "bg-slate-900 text-slate-50 shadow-sm"
+    : "bg-white text-slate-900 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.24)]";
   const tabDefault = isDark
-    ? "text-[rgba(255,255,255,0.35)] hover:text-[rgba(255,255,255,0.6)]"
-    : "text-[#6B7280] hover:text-[#374151]";
+    ? "text-slate-400 hover:text-slate-100"
+    : "text-slate-500 hover:text-slate-800";
   const textareaClass = isDark
-    ? "border-[rgba(255,255,255,0.04)] bg-[rgba(255,255,255,0.02)] text-[rgba(255,255,255,0.88)] placeholder-[rgba(255,255,255,0.15)] focus:border-[rgba(99,102,241,0.3)] focus:bg-[rgba(255,255,255,0.03)]"
-    : "border-[rgba(0,0,0,0.06)] bg-[rgba(255,255,255,0.5)] text-[#0F111A] placeholder-[#B0B7C3] focus:border-[rgba(99,102,241,0.3)] focus:bg-white";
-  const counterText = isDark ? "text-[rgba(255,255,255,0.18)]" : "text-[#B0B7C3]";
+    ? "border-white/10 bg-white/4 text-slate-100 placeholder:text-slate-500 focus:border-blue-400 focus:bg-white/6"
+    : "border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-blue-300 focus:bg-white";
+  const counterText = isDark ? "text-slate-500" : "text-slate-400";
   const dropZone = isDark
-    ? `border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.01)] hover:border-[rgba(99,102,241,0.2)] ${dragOver ? "border-[rgba(99,102,241,0.35)] bg-[rgba(99,102,241,0.04)]" : ""}`
-    : `border-[rgba(0,0,0,0.07)] bg-[rgba(0,0,0,0.01)] hover:border-[rgba(99,102,241,0.25)] ${dragOver ? "border-[rgba(99,102,241,0.35)] bg-[rgba(99,102,241,0.04)]" : ""}`;
-  const dropText = isDark ? "text-[rgba(255,255,255,0.6)]" : "text-[#4B5563]";
-  const dropMuted = isDark ? "text-[rgba(255,255,255,0.22)]" : "text-[#9CA3AF]";
+    ? `border-white/10 bg-white/3 hover:border-blue-400/40 ${dragOver ? "border-blue-400/60 bg-blue-500/8" : ""}`
+    : `border-slate-200 bg-slate-50 hover:border-blue-300 ${dragOver ? "border-blue-400 bg-blue-50" : ""}`;
+  const dropText = isDark ? "text-slate-200" : "text-slate-700";
+  const dropMuted = isDark ? "text-slate-500" : "text-slate-400";
   const fileCard = isDark
-    ? "border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.015)]"
-    : "border-[rgba(0,0,0,0.05)] bg-white/50";
+    ? "border-white/10 bg-white/3"
+    : "border-slate-200 bg-slate-50";
 
   const canSubmit = mode === "text" ? !!text.trim() : !!file;
 
   return (
-    <div className="rounded-2xl p-1" style={cardStyle}>
+    <div className="rounded-[1.8rem] p-1.5" style={cardStyle}>
       {/* Tab Switcher */}
-      <div className={`mb-1 flex items-center gap-1 rounded-xl p-1 ${tabBarBg}`}>
+      <div className={`mb-2 flex items-center gap-1 rounded-[1.2rem] p-1 ${tabBarBg}`}>
         {[
           { id: "text" as const, label: "Text Input", icon: Type },
           { id: "file" as const, label: "File Upload", icon: Upload },
@@ -87,7 +82,7 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
           <button
             key={id}
             onClick={() => setMode(id)}
-            className={`relative flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[12px] transition-all ${
+            className={`relative flex flex-1 items-center justify-center gap-2 rounded-[1rem] px-4 py-3 text-[12px] transition-all ${
               mode === id ? tabActive : tabDefault
             }`}
             style={{ fontWeight: mode === id ? 500 : 400 }}
@@ -113,7 +108,7 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Paste or type the text you want to analyze for AI-generated content..."
-                className={`h-[230px] w-full resize-none rounded-xl border p-5 text-[13px] outline-none transition-all ${textareaClass}`}
+                className={`h-[240px] w-full resize-none rounded-[1.35rem] border p-5 text-[14px] outline-none transition-all ${textareaClass}`}
                 style={{ lineHeight: "1.8" }}
               />
               <div className={`absolute bottom-3 right-3 flex items-center gap-3 text-[10px] ${counterText}`}>
@@ -144,26 +139,26 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
                 onDragLeave={() => setDragOver(false)}
                 onDrop={handleFileDrop}
                 onClick={() => fileRef.current?.click()}
-                className={`flex h-[230px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition-all ${dropZone}`}
+                className={`flex h-[240px] cursor-pointer flex-col items-center justify-center rounded-[1.35rem] border-2 border-dashed transition-all ${dropZone}`}
               >
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-500/8">
-                  <Upload className="h-6 w-6 text-indigo-400" />
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-300">
+                  <Upload className="h-6 w-6" />
                 </div>
                 <p className={`mb-1 text-[13px] ${dropText}`}>
                   Drop your file here, or{" "}
-                  <span className="text-indigo-400">browse</span>
+                  <span className="text-blue-600 dark:text-blue-300">browse</span>
                 </p>
                 <p className={`text-[11px] ${dropMuted}`}>
                   PDF, DOCX - Max 10MB
                 </p>
               </div>
             ) : (
-              <div className={`flex h-[230px] flex-col items-center justify-center rounded-xl border ${fileCard}`}>
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/8">
-                  <FileText className="h-6 w-6 text-emerald-400" />
+              <div className={`flex h-[240px] flex-col items-center justify-center rounded-[1.35rem] border ${fileCard}`}>
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-300">
+                  <FileText className="h-6 w-6" />
                 </div>
-                <p className={`mb-0.5 text-[13px] ${isDark ? "text-white/75" : "text-slate-800"}`}>{file.name}</p>
-                <p className={`mb-3 text-[11px] ${isDark ? "text-white/25" : "text-slate-400"}`}>{fileSize}</p>
+                <p className={`mb-0.5 text-[13px] ${isDark ? "text-slate-100" : "text-slate-800"}`}>{file.name}</p>
+                <p className={`mb-3 text-[11px] ${isDark ? "text-slate-500" : "text-slate-400"}`}>{fileSize}</p>
                 <button
                   onClick={() => {
                     setFile(null);
@@ -171,7 +166,7 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
                       fileRef.current.value = "";
                     }
                   }}
-                  className={`flex items-center gap-1 text-[11px] transition-all ${isDark ? "text-white/25 hover:text-red-400" : "text-slate-400 hover:text-red-500"}`}
+                  className={`flex items-center gap-1 text-[11px] transition-all ${isDark ? "text-slate-500 hover:text-red-300" : "text-slate-400 hover:text-red-500"}`}
                 >
                   <X className="h-3 w-3" /> Remove file
                 </button>
@@ -195,10 +190,10 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
             }
           }}
           disabled={isAnalyzing || !canSubmit}
-          className={`relative flex flex-1 items-center justify-center gap-2.5 overflow-hidden rounded-xl px-6 py-3.5 text-[13px] text-white transition-all disabled:opacity-25 disabled:shadow-none ${canSubmit && !isAnalyzing ? "analyze-btn-animated" : "analyze-btn-static"}`}
+          className={`relative flex flex-1 items-center justify-center gap-2.5 overflow-hidden rounded-[1.15rem] px-6 py-3.5 text-[13px] text-white transition-all disabled:opacity-25 disabled:shadow-none ${canSubmit && !isAnalyzing ? "analyze-btn-animated" : "analyze-btn-static"}`}
           style={{
             fontWeight: 500,
-            boxShadow: canSubmit ? "0 4px 24px rgba(79,70,229,0.3)" : "none",
+            boxShadow: canSubmit ? "0 18px 34px -20px rgba(37,99,235,0.8)" : "none",
           }}
         >
           {isAnalyzing ? (
@@ -224,10 +219,10 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
                 fileRef.current.value = "";
               }
             }}
-            className={`rounded-xl border px-4 py-3.5 text-[12px] transition-all ${
+            className={`rounded-[1.15rem] border px-4 py-3.5 text-[12px] transition-all ${
               isDark
-                ? "border-[rgba(255,255,255,0.06)] text-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[rgba(255,255,255,0.55)]"
-                : "border-[rgba(0,0,0,0.06)] text-[#9CA3AF] hover:bg-[rgba(0,0,0,0.03)] hover:text-[#6B7280]"
+                ? "border-white/10 text-slate-400 hover:bg-white/6 hover:text-slate-100"
+                : "border-slate-200 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
             }`}
           >
             Clear
@@ -236,19 +231,19 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
       </div>
 
       {errorMessage && (
-        <p className={`mt-3 text-[11px] ${isDark ? "text-red-300/90" : "text-red-700"}`}>
+        <p className={`mt-3 text-[11px] ${isDark ? "text-red-200" : "text-red-700"}`}>
           {errorMessage}
         </p>
       )}
 
       <style>{`
         .analyze-btn-animated {
-          background: linear-gradient(135deg, #4F46E5, #6366F1, #4F46E5);
+          background: linear-gradient(135deg, #2563EB, #3B82F6, #2563EB);
           background-size: 200% 200%;
           animation: gradientShift 3s ease infinite;
         }
         .analyze-btn-static {
-          background: linear-gradient(135deg, #4F46E5, #6366F1);
+          background: linear-gradient(135deg, #2563EB, #3B82F6);
           background-size: 100% 100%;
         }
         @keyframes gradientShift {

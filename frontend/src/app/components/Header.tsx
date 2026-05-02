@@ -1,8 +1,9 @@
-import { Shield, Sun, Moon, LogOut, ChevronDown, LayoutDashboard, Clock, BookOpen } from "lucide-react";
+import { Sun, Moon, LogOut, ChevronDown, LayoutDashboard, Clock, BookOpen } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { BrandLogo } from "./BrandLogo";
 
 interface HeaderProps {
   variant?: "guest" | "auth";
@@ -13,27 +14,23 @@ export function Header({ variant = "auth" }: HeaderProps) {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Spatial glass tokens
-  const islandBg = isDark
-    ? "bg-[rgba(15,17,26,0.80)] backdrop-blur-[40px] border-[rgba(255,255,255,0.07)]"
-    : "bg-[rgba(255,255,255,0.85)] backdrop-blur-[40px] border-[rgba(255,255,255,0.90)]";
-  const islandShadow = isDark
-    ? "shadow-[0_8px_40px_rgba(0,0,0,0.50),inset_0_1px_0_rgba(255,255,255,0.04)]"
-    : "shadow-[0_8px_32px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)]";
-  const textPrimary = isDark ? "text-[rgba(255,255,255,0.88)]" : "text-[#0F111A]";
-  const textSecondary = isDark ? "text-[rgba(255,255,255,0.4)]" : "text-[#6B7280]";
+  const shell = isDark
+    ? "border-white/10 bg-slate-950/72 text-slate-100 shadow-[0_18px_44px_-24px_rgba(0,0,0,0.7)]"
+    : "border-slate-200/90 bg-white/86 text-slate-900 shadow-[0_18px_44px_-24px_rgba(15,23,42,0.18)]";
+  const textPrimary = isDark ? "text-slate-100" : "text-slate-900";
+  const textSecondary = isDark ? "text-slate-400" : "text-slate-500";
   const navActive = isDark
-    ? "bg-[rgba(255,255,255,0.08)] text-[rgba(255,255,255,0.92)]"
-    : "bg-[rgba(99,102,241,0.08)] text-[#4338CA]";
+    ? "bg-blue-500/16 text-blue-100"
+    : "bg-blue-50 text-blue-700";
   const navDefault = isDark
-    ? "text-[rgba(255,255,255,0.38)] hover:bg-[rgba(255,255,255,0.05)] hover:text-[rgba(255,255,255,0.7)]"
-    : "text-[#6B7280] hover:bg-[rgba(0,0,0,0.04)] hover:text-[#374151]";
+    ? "text-slate-400 hover:bg-white/6 hover:text-slate-100"
+    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900";
   const themeBtn = isDark
-    ? "text-[rgba(255,255,255,0.3)] hover:text-[rgba(255,255,255,0.6)] hover:bg-[rgba(255,255,255,0.06)]"
-    : "text-[#9CA3AF] hover:text-[#4B5563] hover:bg-[rgba(0,0,0,0.04)]";
+    ? "text-slate-400 hover:bg-white/6 hover:text-slate-100"
+    : "text-slate-400 hover:bg-slate-100 hover:text-slate-800";
   const dropdownBg = isDark
-    ? "bg-[rgba(12,12,18,0.92)] backdrop-blur-[40px] border-[rgba(255,255,255,0.07)]"
-    : "bg-[rgba(255,255,255,0.92)] backdrop-blur-[40px] border-[rgba(0,0,0,0.08)] shadow-[0_16px_64px_rgba(0,0,0,0.12)]";
+    ? "border-white/10 bg-slate-950/96 shadow-[0_28px_72px_-28px_rgba(0,0,0,0.7)]"
+    : "border-slate-200 bg-white/96 shadow-[0_28px_72px_-28px_rgba(15,23,42,0.24)]";
 
   const navItems = [
     { label: "Dashboard", icon: LayoutDashboard },
@@ -42,37 +39,23 @@ export function Header({ variant = "auth" }: HeaderProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 flex justify-center px-4 pt-4 pb-2">
-      <div className={`flex items-center gap-1.5 rounded-full border px-2 py-1.5 ${islandBg} ${islandShadow}`}>
-        {/* Logo */}
+    <header className="sticky top-0 z-50 px-4 py-4 sm:px-6">
+      <div className="mx-auto flex max-w-[1440px] justify-center">
+        <div className={`flex min-h-16 w-full max-w-[1320px] items-center justify-between rounded-[1.4rem] border px-3 sm:px-4 ${shell} backdrop-blur-2xl`}>
         <button
           onClick={() => navigate(isLoggedIn ? "/dashboard" : "/")}
-          className="flex items-center gap-2 pl-2 pr-3"
+          className="flex items-center rounded-2xl px-2 py-2 transition-transform duration-150 hover:scale-[1.01]"
         >
-          <div
-            className="flex h-7 w-7 items-center justify-center rounded-lg"
-            style={{
-              background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-              boxShadow: "0 2px 12px rgba(79,70,229,0.3)",
-            }}
-          >
-            <Shield className="h-3.5 w-3.5 text-white" />
-          </div>
-          <span className={`text-[14px] tracking-tight ${textPrimary}`} style={{ fontWeight: 600 }}>
-            Veri<span style={{ color: "#6366F1" }}>AI</span>
-          </span>
+          <BrandLogo size="md" />
         </button>
 
-        {/* Separator */}
-        <div className={`h-5 w-px ${isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`} />
-
-        {/* Nav items */}
-        {variant === "auth" && isLoggedIn && (
-          <nav className="hidden items-center gap-0.5 px-1 md:flex">
+        <div className="hidden flex-1 justify-center px-5 lg:flex">
+          {variant === "auth" && isLoggedIn && (
+            <nav className="flex items-center gap-1 rounded-full border border-transparent bg-transparent p-1">
             {navItems.map((item, i) => (
               <button
                 key={item.label}
-                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] transition-all ${
+                className={`flex items-center gap-2 rounded-full px-4 py-2 text-[12px] transition-all ${
                   i === 0 ? navActive : navDefault
                 }`}
                 style={{ fontWeight: i === 0 ? 500 : 400 }}
@@ -81,99 +64,96 @@ export function Header({ variant = "auth" }: HeaderProps) {
                 {item.label}
               </button>
             ))}
-          </nav>
-        )}
+            </nav>
+          )}
 
-        {variant === "guest" && !isLoggedIn && (
-          <nav className="hidden items-center gap-0.5 px-1 md:flex">
-            <button className={`rounded-full px-3.5 py-1.5 text-[12px] ${navActive}`} style={{ fontWeight: 500 }}>
-              Analyze
-            </button>
-            <button className={`rounded-full px-3.5 py-1.5 text-[12px] ${navDefault}`}>
-              Pricing
-            </button>
-            <button className={`rounded-full px-3.5 py-1.5 text-[12px] ${navDefault}`}>
-              API
-            </button>
-          </nav>
-        )}
+          {variant === "guest" && !isLoggedIn && (
+            <nav className="flex items-center gap-1 rounded-full border border-transparent bg-transparent p-1">
+              <button className={`rounded-full px-4 py-2 text-[12px] ${navActive}`} style={{ fontWeight: 500 }}>
+                Analyze
+              </button>
+              <button className={`rounded-full px-4 py-2 text-[12px] ${navDefault}`}>
+                Trust
+              </button>
+              <button className={`rounded-full px-4 py-2 text-[12px] ${navDefault}`}>
+                API
+              </button>
+            </nav>
+          )}
+        </div>
 
-        {/* Separator */}
-        <div className={`h-5 w-px ${isDark ? "bg-white/[0.06]" : "bg-black/[0.06]"}`} />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className={`flex h-10 w-10 items-center justify-center rounded-2xl transition-all ${themeBtn}`}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            <AnimatePresence mode="wait">
+              {isDark ? (
+                <motion.div
+                  key="sun"
+                  initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Sun className="h-4 w-4" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="moon"
+                  initial={{ opacity: 0, rotate: 90, scale: 0.8 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: -90, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Moon className="h-4 w-4" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
 
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          className={`flex h-7 w-7 items-center justify-center rounded-full transition-all ${themeBtn}`}
-          title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-        >
-          <AnimatePresence mode="wait">
-            {isDark ? (
-              <motion.div
-                key="sun"
-                initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Sun className="h-3.5 w-3.5" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="moon"
-                initial={{ opacity: 0, rotate: 90, scale: 0.8 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: -90, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Moon className="h-3.5 w-3.5" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </button>
-
-        {/* Guest actions */}
-        {variant === "guest" && !isLoggedIn && (
-          <>
+          {variant === "guest" && !isLoggedIn && (
+            <>
             <button
               onClick={() => navigate("/login")}
-              className={`rounded-full px-3.5 py-1.5 text-[12px] transition-all ${navDefault}`}
+              className={`hidden rounded-full px-4 py-2.5 text-[12px] transition-all sm:inline-flex ${navDefault}`}
               style={{ fontWeight: 500 }}
             >
               Log In
             </button>
             <button
               onClick={() => navigate("/login")}
-              className="rounded-full px-4 py-1.5 text-[12px] text-white transition-all"
+              className="rounded-full bg-blue-600 px-4 py-2.5 text-[12px] text-white transition-all hover:bg-blue-500 active:scale-[0.98]"
               style={{
                 fontWeight: 500,
-                background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-                boxShadow: "0 2px 12px rgba(79,70,229,0.3)",
+                boxShadow: "0 14px 28px -18px rgba(37,99,235,0.75)",
               }}
             >
               Get Started
             </button>
-          </>
-        )}
+            </>
+          )}
 
-        {/* Auth user menu */}
-        {variant === "auth" && isLoggedIn && user && (
-          <div className="relative">
+          {variant === "auth" && isLoggedIn && user && (
+            <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className={`flex items-center gap-1.5 rounded-full p-1 pr-2 transition-all ${
-                isDark ? "hover:bg-white/[0.05]" : "hover:bg-slate-100"
+              className={`flex items-center gap-2 rounded-full px-2 py-1.5 transition-all ${
+                isDark ? "hover:bg-white/6" : "hover:bg-slate-100"
               }`}
             >
               <div
-                className="flex h-6 w-6 items-center justify-center rounded-full text-[10px] text-white"
-                style={{ fontWeight: 600, background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-[10px] text-white"
+                style={{ fontWeight: 700 }}
               >
                 {user.initials}
               </div>
-              <ChevronDown
-                className={`h-3 w-3 transition-transform ${dropdownOpen ? "rotate-180" : ""} ${textSecondary}`}
-              />
+              <div className="hidden text-left sm:block">
+                <div className={`text-[12px] ${textPrimary}`} style={{ fontWeight: 600 }}>{user.name}</div>
+                <div className={`text-[11px] ${textSecondary}`}>{user.plan} plan</div>
+              </div>
+              <ChevronDown className={`h-3 w-3 transition-transform ${dropdownOpen ? "rotate-180" : ""} ${textSecondary}`} />
             </button>
 
             <AnimatePresence>
@@ -183,26 +163,26 @@ export function Header({ variant = "auth" }: HeaderProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.97 }}
                   transition={{ duration: 0.15 }}
-                  className={`absolute right-0 top-full mt-2 w-52 rounded-2xl border p-1.5 ${dropdownBg}`}
+                  className={`absolute right-0 top-full mt-3 w-56 rounded-3xl border p-2 ${dropdownBg}`}
                 >
-                  <div className={`px-3 py-2.5 border-b mb-1 ${isDark ? "border-white/[0.06]" : "border-slate-100"}`}>
+                  <div className={`mb-1 border-b px-3 py-3 ${isDark ? "border-white/10" : "border-slate-100"}`}>
                     <div className={`text-[12px] ${textPrimary}`} style={{ fontWeight: 500 }}>{user.name}</div>
                     <div className={`text-[11px] ${textSecondary} truncate`}>{user.email}</div>
                   </div>
                   {["Profile Settings", "Billing", "API Keys"].map((item) => (
                     <button
                       key={item}
-                      className={`w-full text-left rounded-lg px-3 py-2 text-[12px] transition-all ${
-                        isDark ? "text-white/55 hover:bg-white/[0.05] hover:text-white/85" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      className={`w-full rounded-2xl px-3 py-2.5 text-left text-[12px] transition-all ${
+                        isDark ? "text-white/55 hover:bg-white/6 hover:text-white/85" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                       }`}
                     >
                       {item}
                     </button>
                   ))}
-                  <div className={`border-t mt-1 pt-1 ${isDark ? "border-white/[0.06]" : "border-slate-100"}`}>
+                  <div className={`mt-1 border-t pt-1 ${isDark ? "border-white/10" : "border-slate-100"}`}>
                     <button
                       onClick={() => { logout(); navigate("/"); setDropdownOpen(false); }}
-                      className="w-full text-left flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] text-red-400 hover:bg-red-500/[0.06] transition-all"
+                      className="flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-[12px] text-red-500 transition-all hover:bg-red-500/8"
                     >
                       <LogOut className="h-3 w-3" />
                       Sign out
@@ -211,8 +191,10 @@ export function Header({ variant = "auth" }: HeaderProps) {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-        )}
+            </div>
+          )}
+        </div>
+      </div>
       </div>
     </header>
   );

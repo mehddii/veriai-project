@@ -33,40 +33,38 @@ export interface ResultsData {
 function useGlass(isDark: boolean) {
   return {
     card: {
-      background: isDark ? "rgba(15,17,26,0.55)" : "rgba(255,255,255,0.65)",
-      backdropFilter: isDark ? "blur(40px) saturate(1.4)" : "blur(40px) saturate(1.3)",
-      WebkitBackdropFilter: isDark ? "blur(40px) saturate(1.4)" : "blur(40px) saturate(1.3)",
-      border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(255,255,255,0.80)",
+      background: isDark ? "rgba(15, 23, 42, 0.78)" : "rgba(255, 255, 255, 0.94)",
+      border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(226,232,240,1)",
       boxShadow: isDark
-        ? "0 8px 32px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.04)"
-        : "0 8px 32px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+        ? "0 28px 80px -44px rgba(2,6,23,0.95)"
+        : "0 24px 70px -42px rgba(15,23,42,0.18)",
     } as React.CSSProperties,
     inner: {
-      background: isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)",
-      border: isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.05)",
+      background: isDark ? "rgba(255,255,255,0.04)" : "rgba(241,245,249,0.95)",
+      border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(226,232,240,1)",
     } as React.CSSProperties,
-    textHeading: isDark ? "text-[rgba(255,255,255,0.92)]" : "text-[#0F111A]",
-    textBody: isDark ? "text-[rgba(255,255,255,0.58)]" : "text-[#4B5563]",
-    textMuted: isDark ? "text-[rgba(255,255,255,0.28)]" : "text-[#9CA3AF]",
-    textCaption: isDark ? "text-[rgba(255,255,255,0.2)]" : "text-[#B0B7C3]",
+    textHeading: isDark ? "text-slate-50" : "text-slate-900",
+    textBody: isDark ? "text-slate-300" : "text-slate-600",
+    textMuted: isDark ? "text-slate-500" : "text-slate-400",
+    textCaption: isDark ? "text-slate-500" : "text-slate-400",
     chipBrand: isDark
-      ? "bg-[rgba(99,102,241,0.1)] border-[rgba(99,102,241,0.18)] text-[rgba(165,180,252,0.85)]"
-      : "bg-[rgba(99,102,241,0.06)] border-[rgba(99,102,241,0.12)] text-[#4338CA]",
+      ? "bg-blue-500/10 border-blue-500/20 text-blue-200"
+      : "bg-blue-50 border-blue-200 text-blue-700",
     tagBg: isDark
-      ? "bg-[rgba(255,255,255,0.04)] text-[rgba(255,255,255,0.38)]"
-      : "bg-[rgba(0,0,0,0.04)] text-[#6B7280]",
+      ? "bg-white/6 text-slate-300"
+      : "bg-slate-100 text-slate-600",
     statusAI: isDark
-      ? "bg-[rgba(220,38,38,0.08)] border-[rgba(220,38,38,0.15)] text-[rgba(252,165,165,0.8)]"
-      : "bg-[rgba(220,38,38,0.06)] border-[rgba(220,38,38,0.12)] text-[#B91C1C]",
+      ? "bg-red-500/10 border-red-500/20 text-red-200"
+      : "bg-red-50 border-red-200 text-red-700",
     statusHuman: isDark
-      ? "bg-[rgba(20,184,166,0.08)] border-[rgba(20,184,166,0.15)] text-[rgba(94,234,212,0.8)]"
-      : "bg-[rgba(20,184,166,0.06)] border-[rgba(20,184,166,0.12)] text-[#0F766E]",
+      ? "bg-green-500/10 border-green-500/20 text-green-200"
+      : "bg-green-50 border-green-200 text-green-700",
     statusMixed: isDark
-      ? "bg-[rgba(245,158,11,0.08)] border-[rgba(245,158,11,0.15)] text-[rgba(252,211,77,0.8)]"
-      : "bg-[rgba(245,158,11,0.06)] border-[rgba(245,158,11,0.12)] text-[#B45309]",
+      ? "bg-amber-500/10 border-amber-500/20 text-amber-100"
+      : "bg-amber-50 border-amber-200 text-amber-700",
     btnSecondary: isDark
-      ? "border-[rgba(255,255,255,0.06)] text-[rgba(255,255,255,0.4)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[rgba(255,255,255,0.65)]"
-      : "border-[rgba(0,0,0,0.07)] text-[#6B7280] hover:bg-[rgba(0,0,0,0.03)] hover:text-[#374151]",
+      ? "border-white/10 text-slate-300 hover:bg-white/6 hover:text-slate-50"
+      : "border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900",
   };
 }
 
@@ -88,7 +86,7 @@ function GlassRing({ aiScore, isDark, g }: { aiScore: number; isDark: boolean; g
         <div
           className="absolute inset-0 rounded-full"
           style={{
-            background: `radial-gradient(circle, ${isDark ? "rgba(99,102,241,0.1)" : "rgba(99,102,241,0.08)"} 30%, transparent 70%)`,
+            background: `radial-gradient(circle, ${isDark ? "rgba(37,99,235,0.12)" : "rgba(37,99,235,0.08)"} 30%, transparent 70%)`,
             filter: "blur(20px)",
           }}
         />
@@ -96,9 +94,9 @@ function GlassRing({ aiScore, isDark, g }: { aiScore: number; isDark: boolean; g
         <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ transform: "rotate(-90deg)" }}>
           <defs>
             <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4338CA" />
-              <stop offset="50%" stopColor="#6366F1" />
-              <stop offset="100%" stopColor="#818CF8" />
+              <stop offset="0%" stopColor="#2563EB" />
+              <stop offset="50%" stopColor="#3B82F6" />
+              <stop offset="100%" stopColor="#93C5FD" />
             </linearGradient>
             <filter id="ring-glow">
               <feGaussianBlur stdDeviation="4" result="blur" />
@@ -111,13 +109,13 @@ function GlassRing({ aiScore, isDark, g }: { aiScore: number; isDark: boolean; g
 
           {/* Track */}
           <circle cx={CX} cy={CY} r={R} fill="none"
-            stroke={isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.05)"}
+            stroke={isDark ? "rgba(255,255,255,0.08)" : "rgba(226,232,240,1)"}
             strokeWidth={STROKE}
           />
 
           {/* Human arc */}
           <motion.circle cx={CX} cy={CY} r={R} fill="none"
-            stroke={isDark ? "rgba(20,184,166,0.15)" : "rgba(20,184,166,0.12)"}
+            stroke={isDark ? "rgba(22,163,74,0.24)" : "rgba(22,163,74,0.16)"}
             strokeWidth={STROKE - 3}
             strokeLinecap="round"
             strokeDasharray={`${((100 - aiScore) / 100) * CIRC - 4} ${CIRC - (((100 - aiScore) / 100) * CIRC - 4)}`}
@@ -180,12 +178,12 @@ function GlassRing({ aiScore, isDark, g }: { aiScore: number; isDark: boolean; g
         transition={{ delay: 1.05 }}
       >
         <span className="flex items-center gap-1.5">
-          <span className="inline-block h-[6px] w-[6px] rounded-full" style={{ backgroundColor: "rgba(20,184,166,0.6)" }} />
+          <span className="inline-block h-[6px] w-[6px] rounded-full" style={{ backgroundColor: "rgba(22,163,74,0.7)" }} />
           Human {100 - aiScore}%
         </span>
         <span className={g.textCaption}>|</span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block h-[6px] w-[6px] rounded-full" style={{ background: "linear-gradient(135deg, #4338CA, #6366F1)" }} />
+          <span className="inline-block h-[6px] w-[6px] rounded-full" style={{ background: "linear-gradient(135deg, #2563EB, #60A5FA)" }} />
           AI {aiScore}%
         </span>
       </motion.div>
@@ -229,18 +227,18 @@ function ModelPill({ name, score, rank, isDark, g }: {
       {/* Glowing pill track */}
       <div className="overflow-hidden rounded-full" style={{
         height: "5px",
-        background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.04)",
+        background: isDark ? "rgba(255,255,255,0.08)" : "rgba(226,232,240,1)",
       }}>
         <motion.div
           style={{
             height: "100%",
             borderRadius: "9999px",
             background: rank === 0
-              ? "linear-gradient(to right, #4338CA, #6366F1, #818CF8)"
-              : `rgba(99,102,241,${opacity})`,
+              ? "linear-gradient(to right, #2563EB, #3B82F6, #93C5FD)"
+              : `rgba(37,99,235,${opacity})`,
             boxShadow: rank === 0
-              ? `0 0 12px rgba(99,102,241,0.4)`
-              : `0 0 6px rgba(99,102,241,${opacity * 0.5})`,
+              ? `0 0 12px rgba(37,99,235,0.35)`
+              : `0 0 6px rgba(37,99,235,${opacity * 0.45})`,
           }}
           initial={{ width: 0 }}
           animate={{ width: `${score}%` }}
@@ -365,8 +363,8 @@ export function ResultsPanel({ data }: { data: ResultsData }) {
         <div className="mb-3.5 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
-              style={{ background: isDark ? "rgba(99,102,241,0.1)" : "rgba(99,102,241,0.06)" }}>
-              <AlignLeft className="h-3.5 w-3.5" style={{ color: "#6366F1" }} />
+              style={{ background: isDark ? "rgba(37,99,235,0.12)" : "rgba(239,246,255,1)" }}>
+              <AlignLeft className="h-3.5 w-3.5" style={{ color: "#2563EB" }} />
             </div>
             <span className={g.textBody} style={{ fontSize: "12px", fontWeight: 500 }}>
               Submitted Text
@@ -387,7 +385,7 @@ export function ResultsPanel({ data }: { data: ResultsData }) {
             <button
               onClick={() => setExpanded((v) => !v)}
               className="mt-2 flex items-center gap-1 text-[10px] transition-colors"
-              style={{ color: "#6366F1" }}
+              style={{ color: "#2563EB" }}
             >
               {expanded ? <><ChevronUp className="h-3 w-3" /> Collapse</> : <><ChevronDown className="h-3 w-3" /> Expand full text</>}
             </button>
@@ -549,8 +547,8 @@ export function ResultsPanel({ data }: { data: ResultsData }) {
             <div className="flex items-center gap-2">
               <span className="inline-block rounded-full" style={{
                 width: "8px", height: "8px",
-                background: isDark ? "rgba(20,184,166,0.5)" : "rgba(20,184,166,0.4)",
-                boxShadow: `0 0 6px ${isDark ? "rgba(20,184,166,0.3)" : "rgba(20,184,166,0.2)"}`,
+                background: isDark ? "rgba(22,163,74,0.55)" : "rgba(22,163,74,0.45)",
+                boxShadow: `0 0 6px ${isDark ? "rgba(22,163,74,0.32)" : "rgba(22,163,74,0.18)"}`,
               }} />
               <span className={g.textBody} style={{ fontSize: "10px", fontWeight: 500, letterSpacing: "0.04em", textTransform: "uppercase" }}>
                 Human
@@ -559,8 +557,8 @@ export function ResultsPanel({ data }: { data: ResultsData }) {
             <div className="flex items-center gap-2">
               <span className="inline-block rounded-full" style={{
                 width: "8px", height: "8px",
-                background: isDark ? "rgba(220,80,80,0.5)" : "rgba(220,60,60,0.4)",
-                boxShadow: `0 0 6px ${isDark ? "rgba(220,80,80,0.3)" : "rgba(220,60,60,0.2)"}`,
+                background: isDark ? "rgba(220,38,38,0.55)" : "rgba(220,38,38,0.42)",
+                boxShadow: `0 0 6px ${isDark ? "rgba(220,38,38,0.3)" : "rgba(220,38,38,0.18)"}`,
               }} />
               <span className={g.textBody} style={{ fontSize: "10px", fontWeight: 500, letterSpacing: "0.04em", textTransform: "uppercase" }}>
                 AI-Generated
@@ -569,7 +567,7 @@ export function ResultsPanel({ data }: { data: ResultsData }) {
           </div>
         </div>
 
-        <div className={`mb-5 h-px ${isDark ? "bg-[rgba(255,255,255,0.04)]" : "bg-[rgba(0,0,0,0.05)]"}`} />
+        <div className={`mb-5 h-px ${isDark ? "bg-white/8" : "bg-slate-200"}`} />
 
         {/* Ethereal text analysis */}
         <div className="rounded-xl p-5" style={g.inner}>
@@ -586,27 +584,27 @@ export function ResultsPanel({ data }: { data: ResultsData }) {
             {
               icon: Bot, label: `${aiSentences} AI sentences`,
               style: isDark
-                ? { bg: "rgba(220,60,60,0.06)", border: "rgba(220,60,60,0.12)", color: "rgba(252,165,165,0.75)" }
-                : { bg: "rgba(220,60,60,0.05)", border: "rgba(220,60,60,0.1)", color: "#B91C1C" },
+                ? { bg: "rgba(220,38,38,0.10)", border: "rgba(220,38,38,0.20)", color: "rgba(254,202,202,0.88)" }
+                : { bg: "rgba(254,226,226,1)", border: "rgba(254,202,202,1)", color: "#991B1B" },
             },
             {
               icon: UserRound, label: `${humanSentences} human sentences`,
               style: isDark
-                ? { bg: "rgba(20,184,166,0.06)", border: "rgba(20,184,166,0.12)", color: "rgba(94,234,212,0.75)" }
-                : { bg: "rgba(20,184,166,0.05)", border: "rgba(20,184,166,0.1)", color: "#0F766E" },
+                ? { bg: "rgba(22,163,74,0.10)", border: "rgba(22,163,74,0.20)", color: "rgba(220,252,231,0.88)" }
+                : { bg: "rgba(220,252,231,1)", border: "rgba(187,247,208,1)", color: "#166534" },
             },
             {
               icon: ScanLine, label: `${data.confidence}% avg. confidence`,
               style: isDark
-                ? { bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.15)", color: "rgba(165,180,252,0.8)" }
-                : { bg: "rgba(99,102,241,0.06)", border: "rgba(99,102,241,0.12)", color: "#4338CA" },
+                ? { bg: "rgba(37,99,235,0.10)", border: "rgba(37,99,235,0.20)", color: "rgba(191,219,254,0.92)" }
+                : { bg: "rgba(239,246,255,1)", border: "rgba(191,219,254,1)", color: "#1D4ED8" },
             },
             {
               icon: ShieldAlert,
               label: data.aiScore >= 75 ? "High risk" : data.aiScore >= 45 ? "Medium risk" : "Low risk",
               style: isDark
-                ? { bg: "rgba(245,158,11,0.06)", border: "rgba(245,158,11,0.12)", color: "rgba(252,211,77,0.75)" }
-                : { bg: "rgba(245,158,11,0.06)", border: "rgba(245,158,11,0.12)", color: "#B45309" },
+                ? { bg: "rgba(245,158,11,0.10)", border: "rgba(245,158,11,0.20)", color: "rgba(254,243,199,0.92)" }
+                : { bg: "rgba(255,251,235,1)", border: "rgba(253,230,138,1)", color: "#92400E" },
             },
           ].map((pill, i) => (
             <motion.span

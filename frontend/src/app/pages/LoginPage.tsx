@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Shield, ArrowRight, Eye, EyeOff, Sparkles, CheckCircle, Github, Mail, Lock } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Github, Lock, Mail, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router";
+import { AnalysisShowcase } from "../components/AnalysisShowcase";
+import { BrandLogo } from "../components/BrandLogo";
 import { useApp } from "../context/AppContext";
 
-const features = [
-  "Multi-model AI detection with 98.7% accuracy",
-  "Chunk-level analysis with highlighted segments",
-  "Enterprise-grade API access & webhooks",
-  "Full scan history & exportable reports",
+const evidencePoints = [
+  "Sentence-level highlighting for suspicious phrasing",
+  "Multi-model attribution with transparent confidence scoring",
+  "Review-ready workflow for universities and editorial teams",
 ];
 
 export function LoginPage() {
@@ -22,17 +23,19 @@ export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const textPrimary = isDark ? "text-white/90" : "text-slate-900";
-  const textSecondary = isDark ? "text-white/45" : "text-slate-500";
-  const textMuted = isDark ? "text-white/25" : "text-slate-400";
-  const inputBase = isDark
-    ? "bg-white/[0.03] border-white/[0.06] text-white/90 placeholder-white/20 focus:border-indigo-500/40 focus:bg-white/[0.05]"
-    : "bg-white/80 border-slate-200/80 text-slate-900 placeholder-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100";
-  const dividerColor = isDark ? "bg-white/[0.05]" : "bg-slate-200";
-  const dividerText = isDark ? "text-white/18" : "text-slate-400";
+  const panelShell = isDark
+    ? "border-white/10 bg-slate-950/76 shadow-[0_30px_90px_-40px_rgba(2,6,23,0.95)]"
+    : "border-slate-200 bg-white/92 shadow-[0_26px_90px_-42px_rgba(15,23,42,0.22)]";
+  const textPrimary = isDark ? "text-slate-50" : "text-slate-900";
+  const textSecondary = isDark ? "text-slate-300" : "text-slate-600";
+  const textMuted = isDark ? "text-slate-500" : "text-slate-400";
+  const dividerColor = isDark ? "bg-white/8" : "bg-slate-200";
   const socialBtn = isDark
-    ? "bg-white/[0.03] border-white/[0.06] text-white/60 hover:bg-white/[0.06] hover:text-white/85"
-    : "bg-white/80 border-slate-200/80 text-slate-700 hover:bg-white hover:text-slate-900 shadow-sm";
+    ? "border-white/10 bg-white/3 text-slate-300 hover:bg-white/6 hover:text-slate-50"
+    : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-white hover:text-slate-900";
+  const inputBase = isDark
+    ? "border-white/10 bg-white/4 text-slate-50 placeholder:text-slate-500 focus:border-blue-400 focus:bg-white/6"
+    : "border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-blue-300 focus:bg-white";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,379 +77,252 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex font-['Inter',sans-serif]">
-      {/* Left panel */}
-      <div className="hidden lg:flex flex-1 relative overflow-hidden items-center justify-center p-16"
-        style={{
-          background: isDark
-            ? "linear-gradient(135deg, #050505 0%, #0a0a1a 30%, #050510 100%)"
-            : "linear-gradient(135deg, #FBFBFD 0%, #F0EEFF 50%, #FBFBFD 100%)",
-        }}>
-        {/* Animated mesh blobs */}
-        <div className="absolute top-[-15%] left-[-10%] w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{
-            background: isDark
-              ? "radial-gradient(circle, rgba(49,46,129,0.25) 0%, transparent 70%)"
-              : "radial-gradient(circle, rgba(199,210,254,0.5) 0%, transparent 70%)",
-            animation: "meshFloat1 18s ease-in-out infinite",
-          }} />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[400px] h-[400px] rounded-full blur-[100px]"
-          style={{
-            background: isDark
-              ? "radial-gradient(circle, rgba(30,27,75,0.2) 0%, transparent 70%)"
-              : "radial-gradient(circle, rgba(196,181,253,0.35) 0%, transparent 70%)",
-            animation: "meshFloat2 22s ease-in-out infinite",
-          }} />
+    <div className="relative min-h-screen overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.08),transparent_28%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.08),transparent_26%)]" />
 
-        {/* Floating mockup cards */}
-        <div className="absolute top-[12%] right-[8%]">
+      <div className="relative mx-auto grid min-h-screen max-w-[1440px] gap-10 px-4 py-6 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8">
+        <section className="flex flex-col justify-center gap-8 py-6 lg:py-10">
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="rounded-2xl p-4 w-52"
-            style={{
-              background: isDark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.5)",
-              backdropFilter: "blur(40px)",
-              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
-              boxShadow: isDark
-                ? "0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)"
-                : "0 16px 48px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
-            }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="max-w-[620px]"
           >
-            <div className="flex items-center gap-2 mb-3">
-              <div className="h-2 w-2 rounded-full bg-red-400" style={{ boxShadow: "0 0 8px rgba(220,60,60,0.4)" }} />
-              <span className={`text-[10px] ${isDark ? "text-white/35" : "text-slate-500"}`} style={{ fontWeight: 500, letterSpacing: "0.04em", textTransform: "uppercase" }}>AI Detected</span>
-            </div>
-            <div className="text-2xl mb-0.5" style={{
-              fontWeight: 700,
-              background: "linear-gradient(to bottom, rgba(248,113,113,0.9), rgba(239,68,68,0.7))",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            }}>94%</div>
-            <div className={`text-[9px] ${isDark ? "text-white/25" : "text-slate-400"}`}>Likely GPT-4o generated</div>
-            <div className="mt-3 h-1 rounded-full" style={{ background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}>
-              <div className="h-full w-[94%] rounded-full" style={{
-                background: "linear-gradient(to right, #EF4444, #F59E0B)",
-                boxShadow: "0 0 8px rgba(239,68,68,0.3)",
-              }} />
-            </div>
-          </motion.div>
-        </div>
+            <BrandLogo size="lg" wordmarkClassName="text-slate-900 dark:text-slate-50" />
 
-        <div className="absolute bottom-[20%] left-[6%]">
+            <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-medium text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-200">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Academic-grade AI authorship review
+            </div>
+
+            <h1 className={`mt-5 max-w-[12ch] text-[clamp(2.4rem,5vw,4.4rem)] leading-[1.02] tracking-[-0.06em] ${textPrimary}`}>
+              Review writing with evidence, not guesswork.
+            </h1>
+            <p className={`mt-5 max-w-[52ch] text-[15px] leading-7 ${textSecondary}`}>
+              Veri4i helps reviewers inspect AI-risk signals with a cleaner workflow: readable submission intake, sentence-level flags, and grounded multi-model attribution.
+            </p>
+          </motion.div>
+
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="rounded-2xl p-4 w-48"
-            style={{
-              background: isDark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.5)",
-              backdropFilter: "blur(40px)",
-              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
-              boxShadow: isDark
-                ? "0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)"
-                : "0 16px 48px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
-            }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.08 }}
+            className="grid gap-4 md:grid-cols-[0.86fr_1.14fr]"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <div className="h-2 w-2 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 8px rgba(20,184,166,0.4)" }} />
-              <span className={`text-[10px] ${isDark ? "text-white/35" : "text-slate-500"}`} style={{ fontWeight: 500, letterSpacing: "0.04em", textTransform: "uppercase" }}>Human Written</span>
-            </div>
-            <div className="text-2xl mb-0.5" style={{
-              fontWeight: 700,
-              background: "linear-gradient(to bottom, rgba(52,211,153,0.9), rgba(16,185,129,0.7))",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            }}>12%</div>
-            <div className={`text-[9px] ${isDark ? "text-white/25" : "text-slate-400"}`}>Authentic content</div>
-          </motion.div>
-        </div>
-
-        <div className="absolute top-[45%] right-[4%]">
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="rounded-xl p-3 w-40"
-            style={{
-              background: isDark ? "rgba(99,102,241,0.06)" : "rgba(99,102,241,0.06)",
-              backdropFilter: "blur(20px)",
-              border: isDark ? "1px solid rgba(99,102,241,0.15)" : "1px solid rgba(99,102,241,0.12)",
-            }}
-          >
-            <div className={`text-[9px] mb-1 ${isDark ? "text-indigo-300/70" : "text-indigo-600"}`}
-              style={{ fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>Model Detected</div>
-            <div className={`text-[11px] ${isDark ? "text-white/65" : "text-slate-700"}`} style={{ fontWeight: 500 }}>GPT-4o / Claude 3.5</div>
-          </motion.div>
-        </div>
-
-        {/* Main content */}
-        <div className="relative z-10 max-w-md">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl"
-              style={{
-                background: "linear-gradient(135deg, #4F46E5, #6366F1)",
-                boxShadow: "0 4px 20px rgba(99,102,241,0.3)",
-              }}>
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <span className={`text-[22px] tracking-tight ${textPrimary}`} style={{ fontWeight: 600 }}>
-              Veri<span className="text-indigo-400">AI</span>
-            </span>
-          </div>
-
-          <h1 className={textPrimary} style={{ fontSize: "38px", fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.5px" }}>
-            Detect AI content{" "}
-            <span style={{
-              background: "linear-gradient(to right, #818CF8, #6366F1)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            }}>
-              with confidence.
-            </span>
-          </h1>
-          <p className={`${textSecondary} mb-10`} style={{ fontSize: "14px", lineHeight: 1.7, marginTop: "12px" }}>
-            The most accurate AI content detection platform. Trusted by universities, publishers, and enterprise teams worldwide.
-          </p>
-
-          <ul className="space-y-3.5">
-            {features.map((f, i) => (
-              <motion.li key={i}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 * i + 0.3, duration: 0.4 }}
-                className="flex items-center gap-3"
-              >
-                <CheckCircle className="h-4 w-4 text-indigo-400 shrink-0" />
-                <span className={`text-[13px] ${textSecondary}`}>{f}</span>
-              </motion.li>
-            ))}
-          </ul>
-
-          <div className="mt-12 flex items-center gap-6">
-            {[
-              { val: "98.7%", label: "Accuracy" },
-              { val: "2.4M+", label: "Scans/month" },
-              { val: "150+", label: "Enterprise clients" },
-            ].map((s, i) => (
-              <div key={s.label} className="flex items-center gap-6">
-                {i > 0 && <div className={`h-8 w-px ${isDark ? "bg-white/[0.06]" : "bg-slate-200"}`} />}
-                <div className="text-center">
-                  <div className={textPrimary} style={{ fontWeight: 700, fontSize: "22px" }}>{s.val}</div>
-                  <div className={`text-[10px] ${textMuted}`} style={{ fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase" }}>{s.label}</div>
-                </div>
+            <div className={`rounded-[1.75rem] border p-5 ${panelShell}`}>
+              <div className={`mb-4 text-[11px] uppercase tracking-[0.18em] ${textMuted}`}>Why teams use it</div>
+              <div className="space-y-4">
+                {evidencePoints.map((point, index) => (
+                  <div key={point} className="flex gap-3">
+                    <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600/10 text-[11px] font-semibold text-blue-700 dark:bg-blue-500/12 dark:text-blue-200">
+                      {index + 1}
+                    </div>
+                    <p className={`text-[13px] leading-6 ${textSecondary}`}>{point}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
 
-        <style>{`
-          @keyframes meshFloat1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(8vw, 6vh) scale(1.08); }
-            66% { transform: translate(-4vw, 3vh) scale(0.95); }
-          }
-          @keyframes meshFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-6vw, 8vh) scale(1.05); }
-            66% { transform: translate(5vw, -4vh) scale(0.97); }
-          }
-        `}</style>
-      </div>
-
-      {/* Right panel - Auth form */}
-      <div className="flex flex-1 items-center justify-center p-6 lg:max-w-[480px]"
-        style={{ background: isDark ? "#050505" : "#FBFBFD" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="w-full max-w-[400px]"
-        >
-          <div className="flex items-center gap-2.5 mb-8 lg:hidden">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}>
-              <Shield className="h-4 w-4 text-white" />
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                {[
+                  { label: "Accuracy", value: "98.7%" },
+                  { label: "Teams", value: "150+" },
+                  { label: "Scans", value: "2.4M" },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center dark:border-white/8 dark:bg-white/4">
+                    <div className="font-mono text-[16px] font-bold text-blue-600">{item.value}</div>
+                    <div className={`mt-1 text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>{item.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <span className={`text-[18px] tracking-tight ${textPrimary}`} style={{ fontWeight: 600 }}>
-              Veri<span className="text-indigo-500">AI</span>
-            </span>
-          </div>
 
-          <div className="rounded-2xl p-8"
-            style={{
-              background: isDark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.7)",
-              backdropFilter: "blur(40px)",
-              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
-              boxShadow: isDark
-                ? "0 16px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)"
-                : "0 16px 64px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
-            }}>
-            <div className={`flex mb-8 rounded-xl p-1 ${isDark ? "bg-white/[0.03]" : "bg-slate-100/60"}`}>
-              {(["login", "signup"] as const).map((t) => (
+            <AnalysisShowcase compact />
+          </motion.div>
+        </section>
+
+        <section className="flex items-center justify-center py-4 lg:justify-end">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.1 }}
+            className={`w-full max-w-[460px] rounded-[2rem] border p-5 sm:p-7 ${panelShell}`}
+          >
+            <div className="mb-6 flex items-center justify-between gap-3">
+              <div>
+                <div className={`text-[11px] uppercase tracking-[0.18em] ${textMuted}`}>Account access</div>
+                <h2 className={`mt-2 text-[28px] tracking-[-0.04em] ${textPrimary}`}>
+                  {tab === "login" ? "Welcome back" : "Create your workspace"}
+                </h2>
+                <p className={`mt-2 text-[13px] leading-6 ${textSecondary}`}>
+                  {tab === "login"
+                    ? "Continue to your review dashboard and recent scans."
+                    : "Start with the free plan and upgrade only if you need more volume."}
+                </p>
+              </div>
+              <div className="hidden rounded-2xl border border-blue-200 bg-blue-50 px-3 py-2 text-right dark:border-blue-500/20 dark:bg-blue-500/10 sm:block">
+                <div className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>Plan</div>
+                <div className="text-[13px] font-semibold text-blue-700 dark:text-blue-200">Free</div>
+              </div>
+            </div>
+
+            <div className="mb-6 grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1 dark:bg-white/5">
+              {(["login", "signup"] as const).map((entry) => (
                 <button
-                  key={t}
+                  key={entry}
                   onClick={() => {
-                    setTab(t);
+                    setTab(entry);
                     setFormError(null);
                     clearAuthError();
                   }}
-                  className={`flex-1 rounded-lg py-2.5 text-[12px] transition-all ${
-                    tab === t
-                      ? isDark ? "bg-white/[0.08] text-white shadow-sm" : "bg-white text-slate-900 shadow-sm"
-                      : isDark ? "text-white/35 hover:text-white/55" : "text-slate-500 hover:text-slate-700"
+                  className={`rounded-[1rem] px-4 py-3 text-[13px] transition-all ${
+                    tab === entry
+                      ? "bg-white text-slate-900 shadow-[0_12px_24px_-18px_rgba(15,23,42,0.25)] dark:bg-slate-900 dark:text-slate-50"
+                      : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-50"
                   }`}
-                  style={{ fontWeight: tab === t ? 500 : 400 }}
                 >
-                  {t === "login" ? "Sign In" : "Create Account"}
+                  {entry === "login" ? "Sign In" : "Create Account"}
                 </button>
               ))}
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div key={tab}
-                initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.2 }}>
-                <h2 className={`mb-1 ${textPrimary}`} style={{ fontSize: "20px", fontWeight: 600 }}>
-                  {tab === "login" ? "Welcome back" : "Create your account"}
-                </h2>
-                <p className={`mb-6 text-[12px] ${textSecondary}`}>
-                  {tab === "login"
-                    ? "Sign in to access your dashboard and scan history."
-                    : "Start detecting AI content in seconds. Free plan included."}
-                </p>
+            {(formError || authError) && (
+              <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-[12px] text-red-700 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-200">
+                {formError || authError}
+              </div>
+            )}
 
-                {(formError || authError) && (
-                  <div
-                    className="mb-4 rounded-xl border border-red-500/25 bg-red-500/8 px-3 py-2 text-[11px]"
-                    style={{ color: isDark ? "rgba(254,202,202,0.95)" : "#B91C1C" }}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <AnimatePresence mode="wait">
+                {tab === "signup" && (
+                  <motion.div
+                    key="name"
+                    initial={{ opacity: 0, height: 0, y: -6 }}
+                    animate={{ opacity: 1, height: "auto", y: 0 }}
+                    exit={{ opacity: 0, height: 0, y: -6 }}
+                    transition={{ duration: 0.18 }}
                   >
-                    {formError || authError}
-                  </div>
+                    <label className={`mb-2 block ${textSecondary}`}>Full Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="John Doe"
+                      className={`w-full rounded-2xl border px-4 py-3.5 outline-none transition-all ${inputBase}`}
+                    />
+                  </motion.div>
                 )}
+              </AnimatePresence>
 
-                <form onSubmit={handleSubmit} className="space-y-3.5">
-                  {tab === "signup" && (
-                    <div>
-                      <label className={`block text-[11px] mb-1.5 ${textSecondary}`} style={{ fontWeight: 500 }}>Full Name</label>
-                      <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                        placeholder="John Doe"
-                        className={`w-full rounded-xl border px-4 py-3 text-[13px] outline-none transition-all ${inputBase}`} />
-                    </div>
-                  )}
-
-                  <div>
-                    <label className={`block text-[11px] mb-1.5 ${textSecondary}`} style={{ fontWeight: 500 }}>Email Address</label>
-                    <div className="relative">
-                      <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${textMuted}`} />
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@company.com"
-                        className={`w-full rounded-xl border pl-10 pr-4 py-3 text-[13px] outline-none transition-all ${inputBase}`} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between mb-1.5">
-                      <label className={`text-[11px] ${textSecondary}`} style={{ fontWeight: 500 }}>Password</label>
-                      {tab === "login" && (
-                        <button type="button" className="text-[11px] text-indigo-400 hover:text-indigo-300">Forgot password?</button>
-                      )}
-                    </div>
-                    <div className="relative">
-                      <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${textMuted}`} />
-                      <input type={showPassword ? "text" : "password"} value={password}
-                        onChange={(e) => setPassword(e.target.value)} placeholder="--------"
-                        className={`w-full rounded-xl border pl-10 pr-11 py-3 text-[13px] outline-none transition-all ${inputBase}`} />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)}
-                        className={`absolute right-3.5 top-1/2 -translate-y-1/2 ${textMuted} hover:text-indigo-400 transition-colors`}>
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <button type="submit" disabled={isLoading}
-                    className={`mt-2 flex w-full items-center justify-center gap-2.5 rounded-xl py-3.5 text-[13px] text-white transition-all hover:opacity-95 disabled:opacity-60 ${!isLoading ? "login-btn-animated" : "login-btn-static"}`}
-                    style={{
-                      fontWeight: 500,
-                      boxShadow: "0 4px 24px rgba(99,102,241,0.3)",
-                    }}>
-                    {isLoading ? (
-                      <>
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                        {tab === "login" ? "Signing in..." : "Creating account..."}
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-4 w-4" />
-                        {tab === "login" ? "Sign In" : "Get Started Free"}
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </>
-                    )}
-                  </button>
-                </form>
-
-                <div className="flex items-center gap-3 my-5">
-                  <div className={`flex-1 h-px ${dividerColor}`} />
-                  <span className={`text-[10px] ${dividerText}`}>or continue with</span>
-                  <div className={`flex-1 h-px ${dividerColor}`} />
+              <div>
+                <label className={`mb-2 block ${textSecondary}`}>Email Address</label>
+                <div className="relative">
+                  <Mail className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 ${textMuted}`} />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    className={`w-full rounded-2xl border py-3.5 pl-11 pr-4 outline-none transition-all ${inputBase}`}
+                  />
                 </div>
+              </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { label: "Google", icon: "G" },
-                    { label: "GitHub", icon: <Github className="h-4 w-4" /> },
-                  ].map((s) => (
-                    <button key={s.label} type="button"
-                      onClick={() => {
-                        setFormError("OAuth login is not configured yet. Use email and password.");
-                      }}
-                      className={`flex items-center justify-center gap-2 rounded-xl border py-3 text-[12px] transition-all ${socialBtn}`}
-                      style={{ fontWeight: 500 }}>
-                      {typeof s.icon === "string" ? (
-                        <span className="text-[14px]" style={{ fontWeight: 700 }}>{s.icon}</span>
-                      ) : s.icon}
-                      {s.label}
+              <div>
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <label className={textSecondary}>Password</label>
+                  {tab === "login" && (
+                    <button type="button" className="text-[12px] font-medium text-blue-600 hover:text-blue-500 dark:text-blue-300">
+                      Forgot password?
                     </button>
-                  ))}
+                  )}
                 </div>
-
-                <p className={`mt-5 text-center text-[11px] ${textMuted}`}>
-                  {tab === "login" ? "Don't have an account? " : "Already have an account? "}
+                <div className="relative">
+                  <Lock className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 ${textMuted}`} />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className={`w-full rounded-2xl border py-3.5 pl-11 pr-11 outline-none transition-all ${inputBase}`}
+                  />
                   <button
                     type="button"
-                    onClick={() => {
-                      setTab(tab === "login" ? "signup" : "login");
-                      setFormError(null);
-                      clearAuthError();
-                    }}
-                    className="text-indigo-400 hover:text-indigo-300 transition-colors" style={{ fontWeight: 500 }}>
-                    {tab === "login" ? "Sign up free" : "Sign in"}
+                    onClick={() => setShowPassword((value) => !value)}
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 transition-colors ${textMuted} hover:text-blue-600 dark:hover:text-blue-300`}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                </div>
+              </div>
 
-          <p className={`text-center mt-5 text-[10px] ${textMuted}`}>
-            By continuing, you agree to our{" "}
-            <span className="text-indigo-400 cursor-pointer">Terms of Service</span>
-            {" "}and{" "}
-            <span className="text-indigo-400 cursor-pointer">Privacy Policy</span>.
-          </p>
-        </motion.div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3.5 text-white transition-all hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+                style={{ boxShadow: "0 18px 30px -20px rgba(37,99,235,0.9)" }}
+              >
+                {isLoading ? (
+                  <>
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    {tab === "login" ? "Signing in..." : "Creating account..."}
+                  </>
+                ) : (
+                  <>
+                    {tab === "login" ? "Sign In" : "Create Account"}
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="my-6 flex items-center gap-3">
+              <div className={`h-px flex-1 ${dividerColor}`} />
+              <span className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>or continue with</span>
+              <div className={`h-px flex-1 ${dividerColor}`} />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: "Google", icon: "G" },
+                { label: "GitHub", icon: <Github className="h-4 w-4" /> },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => setFormError("OAuth login is not configured yet. Use email and password.")}
+                  className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 transition-all ${socialBtn}`}
+                >
+                  {typeof item.icon === "string" ? (
+                    <span className="text-[14px] font-bold">{item.icon}</span>
+                  ) : (
+                    item.icon
+                  )}
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <p className={`mt-6 text-center text-[12px] ${textMuted}`}>
+              {tab === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setTab(tab === "login" ? "signup" : "login");
+                  setFormError(null);
+                  clearAuthError();
+                }}
+                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-300"
+              >
+                {tab === "login" ? "Create one" : "Sign in"}
+              </button>
+            </p>
+
+            <p className={`mt-5 text-center text-[11px] leading-5 ${textMuted}`}>
+              By continuing, you agree to the Terms of Service and Privacy Policy.
+            </p>
+          </motion.div>
+        </section>
       </div>
-
-      <style>{`
-        .login-btn-animated {
-          background: linear-gradient(135deg, #4F46E5, #6366F1, #4F46E5);
-          background-size: 200% 200%;
-          animation: gradientShift 3s ease infinite;
-        }
-        .login-btn-static {
-          background: linear-gradient(135deg, #4F46E5, #6366F1);
-          background-size: 100% 100%;
-        }
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
     </div>
   );
 }
