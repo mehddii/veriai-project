@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import {
-  ArrowUpRight,
-  BarChart3,
-  Clock,
-  FileText,
-  Lock,
-  Shield,
-  Sparkles,
-  TrendingUp,
-} from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
+import {
+  ActivityLogIcon,
+  ArrowRightIcon,
+  BarChartIcon,
+  FileTextIcon,
+  LockClosedIcon,
+  MagicWandIcon,
+  MixerHorizontalIcon,
+  ReaderIcon,
+} from "@radix-ui/react-icons";
 import { listSubmissionsRequest, SubmissionListItemResponse } from "../services/api";
 
 const scanData = [40, 65, 48, 80, 72, 90, 75, 95, 88, 100, 92, 98];
@@ -201,9 +201,9 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
 
           <div className="mt-5 space-y-3">
             {[
-              { icon: Shield, text: "Structured confidence and sentence-level inspection" },
-              { icon: BarChart3, text: "Readable signal breakdowns instead of abstract hype metrics" },
-              { icon: Clock, text: "A workflow suited to repeated classroom or research review" },
+              { icon: MixerHorizontalIcon, text: "Structured confidence and sentence-level inspection" },
+              { icon: BarChartIcon, text: "Readable signal breakdowns instead of abstract hype metrics" },
+              { icon: ReaderIcon, text: "A workflow suited to repeated classroom or research review" },
             ].map((benefit) => (
               <div key={benefit.text} className={`flex items-start gap-3 rounded-[1.4rem] border px-3 py-3 ${mutedCard}`}>
                 <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
@@ -217,7 +217,7 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
           <div className={`mt-5 rounded-[1.45rem] border p-4 ${mutedCard}`}>
             <div className="mb-3 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
-                <Lock className="h-4 w-4" />
+                <LockClosedIcon className="h-4 w-4" />
               </div>
               <div>
                 <div className={`text-[11px] uppercase tracking-[0.16em] ${muted}`}>When sign-in helps</div>
@@ -233,7 +233,7 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3.5 text-white transition-all hover:bg-blue-500"
               style={{ boxShadow: "0 18px 30px -20px rgba(37,99,235,0.9)" }}
             >
-              <Sparkles className="h-4 w-4" />
+              <MagicWandIcon className="h-4 w-4" />
               Log In to Save Scans
             </button>
           </div>
@@ -266,7 +266,7 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
           {
             label: "Total Scans",
             value: totalScans == null ? "--" : totalScans.toLocaleString(),
-            icon: BarChart3,
+            icon: BarChartIcon,
             accent: "text-blue-600 dark:text-blue-300",
             badge: "+12%",
             sparkData: scanData,
@@ -275,7 +275,7 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
           {
             label: "Accuracy",
             value: "98.7%",
-            icon: TrendingUp,
+            icon: ActivityLogIcon,
             accent: "text-green-600 dark:text-green-300",
             badge: "+0.3%",
             sparkData: accuracyData,
@@ -305,7 +305,7 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
             <h3 className={`mt-1 text-[18px] font-semibold tracking-[-0.03em] ${title}`}>Latest submissions</h3>
           </div>
           <button className="flex items-center gap-1 text-[12px] font-medium text-blue-600 transition-colors hover:text-blue-500 dark:text-blue-300">
-            View all <ArrowUpRight className="h-3 w-3" />
+            View all <ArrowRightIcon className="h-3 w-3" />
           </button>
         </div>
 
@@ -329,7 +329,7 @@ export function Sidebar({ variant = "auth" }: SidebarProps) {
             >
               <div className="flex min-w-0 items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 dark:bg-white/6 dark:text-slate-400">
-                  <FileText className="h-4 w-4" />
+                  <FileTextIcon className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
                   <p className={`truncate text-[12px] font-medium ${title}`}>{item.title}</p>

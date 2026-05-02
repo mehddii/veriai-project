@@ -1,5 +1,10 @@
 import { motion } from "motion/react";
-import { Bot, FileSearch, Highlighter, ShieldCheck } from "lucide-react";
+import {
+  BarChartIcon,
+  MagicWandIcon,
+  MixerHorizontalIcon,
+  TargetIcon,
+} from "@radix-ui/react-icons";
 import { useApp } from "../context/AppContext";
 
 interface AnalysisShowcaseProps {
@@ -40,13 +45,14 @@ export function AnalysisShowcase({ compact = false }: AnalysisShowcaseProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.42 }}
       className={`relative overflow-hidden rounded-[2rem] border p-5 ${shell} ${compact ? "" : "max-w-[720px]"}`}
+      style={!isDark ? { transform: "rotate(-1.2deg)" } : undefined}
     >
       <div className="absolute inset-x-8 top-0 h-24 rounded-full bg-blue-500/8 blur-3xl" />
 
       <div className="relative mb-4 flex items-center justify-between gap-3">
         <div>
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-medium text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-200">
-            <ShieldCheck className="h-3.5 w-3.5" />
+            <TargetIcon className="h-3.5 w-3.5" />
             Evidence preview
           </div>
           <h3 className={`text-[19px] font-semibold tracking-[-0.03em] ${textPrimary}`}>What a reviewer sees after submission</h3>
@@ -66,7 +72,7 @@ export function AnalysisShowcase({ compact = false }: AnalysisShowcaseProps) {
               <p className={`mt-1 text-[12px] ${textSecondary}`}>Sentence-level review stays legible, quiet, and specific.</p>
             </div>
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-200">
-              <Highlighter className="h-4 w-4" />
+              <MagicWandIcon className="h-4 w-4" />
             </div>
           </div>
 
@@ -100,7 +106,7 @@ export function AnalysisShowcase({ compact = false }: AnalysisShowcaseProps) {
         <div className="grid gap-4">
           <div className={`rounded-[1.65rem] border p-4 ${side}`}>
             <div className="mb-3 flex items-center gap-2">
-              <FileSearch className="h-4 w-4 text-blue-600" />
+              <MixerHorizontalIcon className="h-4 w-4 text-blue-600" />
               <div className={`text-[12px] font-semibold ${textPrimary}`}>Structured signal summary</div>
             </div>
 
@@ -125,7 +131,7 @@ export function AnalysisShowcase({ compact = false }: AnalysisShowcaseProps) {
 
           <div className={`rounded-[1.65rem] border p-4 ${side}`}>
             <div className="mb-3 flex items-center gap-2">
-              <Bot className="h-4 w-4 text-blue-600" />
+              <BarChartIcon className="h-4 w-4 text-blue-600" />
               <div className={`text-[12px] font-semibold ${textPrimary}`}>Model attribution</div>
             </div>
 

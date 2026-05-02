@@ -1,6 +1,13 @@
 import { useState, useRef } from "react";
-import { Type, Upload, FileText, X, Sparkles, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import {
+  ArrowRightIcon,
+  FileTextIcon,
+  MagicWandIcon,
+  TextIcon,
+  TrashIcon,
+  UploadIcon,
+} from "@radix-ui/react-icons";
 import { useApp } from "../context/AppContext";
 
 export type AnalyzePayload =
@@ -90,8 +97,8 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
       {/* Tab Switcher */}
       <div className={`mb-2 flex items-center gap-1 rounded-[1.2rem] p-1 ${tabBarBg}`}>
         {[
-          { id: "text" as const, label: "Text Input", icon: Type },
-          { id: "file" as const, label: "File Upload", icon: Upload },
+          { id: "text" as const, label: "Text Input", icon: TextIcon },
+          { id: "file" as const, label: "File Upload", icon: UploadIcon },
         ].map(({ id, label, icon: Icon }) => (
           <button
             key={id}
@@ -162,7 +169,7 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
                 className={`flex h-[240px] cursor-pointer flex-col items-center justify-center rounded-[1.35rem] border-2 border-dashed transition-all ${dropZone}`}
               >
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-300">
-                  <Upload className="h-6 w-6" />
+                  <UploadIcon className="h-6 w-6" />
                 </div>
                 <p className={`mb-1 text-[13px] ${dropText}`}>
                   Drop your file here, or{" "}
@@ -175,7 +182,7 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
             ) : (
               <div className={`flex h-[240px] flex-col items-center justify-center rounded-[1.35rem] border ${fileCard}`}>
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-300">
-                  <FileText className="h-6 w-6" />
+                  <FileTextIcon className="h-6 w-6" />
                 </div>
                 <p className={`mb-0.5 text-[13px] ${isDark ? "text-slate-100" : "text-slate-800"}`}>{file.name}</p>
                 <p className={`mb-3 text-[11px] ${isDark ? "text-slate-500" : "text-slate-400"}`}>{fileSize}</p>
@@ -188,7 +195,7 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
                   }}
                   className={`flex items-center gap-1 text-[11px] transition-all ${isDark ? "text-slate-500 hover:text-red-300" : "text-slate-400 hover:text-red-500"}`}
                 >
-                  <X className="h-3 w-3" /> Remove file
+                  <TrashIcon className="h-3 w-3" /> Remove file
                 </button>
               </div>
             )}
@@ -223,9 +230,9 @@ export function InputPanel({ onAnalyze, isAnalyzing, errorMessage = null }: Inpu
             </>
           ) : (
             <>
-              <Sparkles className="h-4 w-4" />
+              <MagicWandIcon className="h-4 w-4" />
               Analyze Content
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRightIcon className="h-3.5 w-3.5" />
             </>
           )}
         </button>
