@@ -1,9 +1,17 @@
-import { Sun, Moon, LogOut, ChevronDown, LayoutDashboard, Clock, BookOpen } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { BrandLogo } from "./BrandLogo";
+import {
+  ChevronDownIcon,
+  ClockIcon,
+  ExitIcon,
+  HomeIcon,
+  MoonIcon,
+  ReaderIcon,
+  SunIcon,
+} from "@radix-ui/react-icons";
 
 interface HeaderProps {
   variant?: "guest" | "auth";
@@ -20,11 +28,11 @@ export function Header({ variant = "auth" }: HeaderProps) {
   const textPrimary = isDark ? "text-slate-100" : "text-slate-900";
   const textSecondary = isDark ? "text-slate-400" : "text-slate-500";
   const navActive = isDark
-    ? "bg-blue-500/16 text-blue-100"
+    ? "border-blue-400/30 bg-blue-500/10 text-blue-100"
     : "bg-blue-50 text-blue-700";
   const navDefault = isDark
-    ? "text-slate-400 hover:bg-white/6 hover:text-slate-100"
-    : "text-slate-500 hover:bg-[#f3eee6] hover:text-slate-900";
+    ? "text-slate-400 hover:text-slate-100"
+    : "text-slate-500 hover:text-slate-900";
   const themeBtn = isDark
     ? "text-slate-400 hover:bg-white/6 hover:text-slate-100"
     : "text-slate-400 hover:bg-[#f3eee6] hover:text-slate-800";
@@ -33,9 +41,9 @@ export function Header({ variant = "auth" }: HeaderProps) {
     : "border-[#ddd3c5] bg-[#fffdfa]/96 shadow-[0_28px_72px_-28px_rgba(15,23,42,0.18)]";
 
   const navItems = [
-    { label: "Dashboard", icon: LayoutDashboard },
-    { label: "History", icon: Clock },
-    { label: "Docs", icon: BookOpen },
+    { label: "Dashboard", icon: HomeIcon },
+    { label: "History", icon: ClockIcon },
+    { label: "Review notes", icon: ReaderIcon },
   ];
 
   return (
@@ -55,7 +63,8 @@ export function Header({ variant = "auth" }: HeaderProps) {
             {navItems.map((item, i) => (
               <button
                 key={item.label}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-[12px] transition-all ${
+                aria-current={i === 0 ? "page" : undefined}
+                className={`flex items-center gap-2 rounded-full border px-4 py-2 text-[12px] transition-all ${
                   i === 0 ? navActive : navDefault
                 }`}
                 style={{ fontWeight: i === 0 ? 500 : 400 }}
@@ -68,15 +77,15 @@ export function Header({ variant = "auth" }: HeaderProps) {
           )}
 
           {variant === "guest" && !isLoggedIn && (
-            <nav className="flex items-center gap-1 rounded-full border border-transparent bg-transparent p-1">
-              <button className={`rounded-full px-4 py-2 text-[12px] ${navActive}`} style={{ fontWeight: 500 }}>
+            <nav className="flex items-center gap-5">
+              <button className={`border-b px-0 pb-2 pt-1 text-[12px] ${isDark ? "border-blue-400 text-blue-100" : "border-blue-600 text-blue-700"}`} style={{ fontWeight: 600 }}>
                 Analyze
               </button>
-              <button className={`rounded-full px-4 py-2 text-[12px] ${navDefault}`}>
-                Trust
+              <button className={`border-b border-transparent px-0 pb-2 pt-1 text-[12px] ${navDefault}`}>
+                Trust notes
               </button>
-              <button className={`rounded-full px-4 py-2 text-[12px] ${navDefault}`}>
-                API
+              <button className={`border-b border-transparent px-0 pb-2 pt-1 text-[12px] ${navDefault}`}>
+                Workflow
               </button>
             </nav>
           )}
@@ -97,7 +106,7 @@ export function Header({ variant = "auth" }: HeaderProps) {
                   exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Sun className="h-4 w-4" />
+                  <SunIcon className="h-4 w-4" />
                 </motion.div>
               ) : (
                 <motion.div
@@ -107,7 +116,7 @@ export function Header({ variant = "auth" }: HeaderProps) {
                   exit={{ opacity: 0, rotate: -90, scale: 0.8 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Moon className="h-4 w-4" />
+                  <MoonIcon className="h-4 w-4" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -153,7 +162,7 @@ export function Header({ variant = "auth" }: HeaderProps) {
                 <div className={`text-[12px] ${textPrimary}`} style={{ fontWeight: 600 }}>{user.name}</div>
                 <div className={`text-[11px] ${textSecondary}`}>{user.plan} plan</div>
               </div>
-              <ChevronDown className={`h-3 w-3 transition-transform ${dropdownOpen ? "rotate-180" : ""} ${textSecondary}`} />
+              <ChevronDownIcon className={`h-3 w-3 transition-transform ${dropdownOpen ? "rotate-180" : ""} ${textSecondary}`} />
             </button>
 
             <AnimatePresence>
@@ -184,7 +193,7 @@ export function Header({ variant = "auth" }: HeaderProps) {
                       onClick={() => { logout(); navigate("/"); setDropdownOpen(false); }}
                       className="flex w-full items-center gap-2 rounded-2xl px-3 py-2.5 text-left text-[12px] text-red-500 transition-all hover:bg-red-500/8"
                     >
-                      <LogOut className="h-3 w-3" />
+                      <ExitIcon className="h-3 w-3" />
                       Sign out
                     </button>
                   </div>

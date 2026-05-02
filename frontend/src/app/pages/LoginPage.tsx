@@ -1,7 +1,17 @@
 import { useState } from "react";
-import { ArrowRight, Eye, EyeOff, Github, Lock, Mail, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router";
+import {
+  ArrowRightIcon,
+  CheckCircledIcon,
+  EnvelopeClosedIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+  GitHubLogoIcon,
+  LockClosedIcon,
+  ReaderIcon,
+  RocketIcon,
+} from "@radix-ui/react-icons";
 import { AnalysisShowcase } from "../components/AnalysisShowcase";
 import { BrandLogo } from "../components/BrandLogo";
 import { useApp } from "../context/AppContext";
@@ -10,6 +20,21 @@ const evidencePoints = [
   "Sentence-level highlighting for suspicious phrasing",
   "Multi-model attribution with transparent confidence scoring",
   "Review-ready workflow for universities and editorial teams",
+];
+
+const workflowNotes = [
+  {
+    label: "Classroom review",
+    note: "Screen a paragraph before discussing authorship concerns with a student.",
+  },
+  {
+    label: "Research screening",
+    note: "Inspect sections that feel overly uniform before escalating to full review.",
+  },
+  {
+    label: "Editorial evidence",
+    note: "Keep confidence signals and highlighted passages in the same working surface.",
+  },
 ];
 
 export function LoginPage() {
@@ -91,7 +116,7 @@ export function LoginPage() {
             <BrandLogo size="lg" wordmarkClassName="text-slate-900 dark:text-slate-50" />
 
             <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-medium text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-200">
-              <ShieldCheck className="h-3.5 w-3.5" />
+              <CheckCircledIcon className="h-3.5 w-3.5" />
               Academic-grade AI authorship review
             </div>
 
@@ -107,36 +132,67 @@ export function LoginPage() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.08 }}
-            className="grid gap-4 md:grid-cols-[0.86fr_1.14fr]"
+            className="grid gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(320px,1.08fr)]"
           >
-            <div className={`rounded-[1.75rem] border p-5 ${panelShell}`}>
-              <div className={`mb-4 text-[11px] uppercase tracking-[0.18em] ${textMuted}`}>Why teams use it</div>
-              <div className="space-y-4">
-                {evidencePoints.map((point, index) => (
-                  <div key={point} className="flex gap-3">
-                    <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600/10 text-[11px] font-semibold text-blue-700 dark:bg-blue-500/12 dark:text-blue-200">
-                      {index + 1}
+            <div className="flex flex-col gap-4">
+              <div className={`rounded-[1.75rem] border p-5 ${panelShell}`}>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className={`text-[11px] uppercase tracking-[0.18em] ${textMuted}`}>Review posture</div>
+                    <div className={`mt-2 max-w-[18ch] text-[22px] leading-[1.08] tracking-[-0.04em] ${textPrimary}`}>
+                      A calmer workspace for first-pass evidence checks.
                     </div>
-                    <p className={`text-[13px] leading-6 ${textSecondary}`}>{point}</p>
                   </div>
-                ))}
+                  <div className="hidden rounded-[1.15rem] border border-blue-200 bg-blue-50 px-3 py-2 text-blue-700 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-200 sm:block">
+                    <ReaderIcon className="h-4 w-4" />
+                  </div>
+                </div>
+
+                <div className="mt-5 space-y-4">
+                  {evidencePoints.map((point, index) => (
+                    <div key={point} className="flex gap-3">
+                      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600/10 text-[11px] font-semibold text-blue-700 dark:bg-blue-500/12 dark:text-blue-200">
+                        {index + 1}
+                      </div>
+                      <p className={`text-[13px] leading-6 ${textSecondary}`}>{point}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-3 gap-3">
-                {[
-                  { label: "Accuracy", value: "98.7%" },
-                  { label: "Teams", value: "150+" },
-                  { label: "Scans", value: "2.4M" },
-                ].map((item) => (
-                  <div key={item.label} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 text-center dark:border-white/8 dark:bg-white/4">
-                    <div className="font-mono text-[16px] font-bold text-blue-600">{item.value}</div>
-                    <div className={`mt-1 text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>{item.label}</div>
+              <div className={`rounded-[1.75rem] border p-5 ${panelShell}`}>
+                <div className={`text-[11px] uppercase tracking-[0.18em] ${textMuted}`}>Where it fits</div>
+                <div className="mt-4 space-y-4">
+                  {workflowNotes.map((item) => (
+                    <div key={item.label} className="grid gap-2 border-b border-slate-200/80 pb-4 last:border-b-0 last:pb-0 dark:border-white/10">
+                      <div className="flex items-center gap-2 text-[12px] font-semibold text-blue-700 dark:text-blue-200">
+                        <RocketIcon className="h-3.5 w-3.5" />
+                        {item.label}
+                      </div>
+                      <p className={`max-w-[34ch] text-[13px] leading-6 ${textSecondary}`}>{item.note}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
+                  <div className="rounded-[1.35rem] border border-slate-200 bg-slate-50 px-4 py-4 dark:border-white/8 dark:bg-white/4">
+                    <div className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>Observed output</div>
+                    <div className="mt-2 font-mono text-[17px] font-bold text-blue-600">98.7%</div>
+                    <div className={`mt-1 text-[12px] leading-5 ${textSecondary}`}>calibrated reviewer agreement on benchmark checks</div>
                   </div>
-                ))}
+                  <div className="rounded-[1.35rem] border border-slate-200 bg-white px-4 py-4 dark:border-white/8 dark:bg-slate-950/35">
+                    <div className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>Typical use</div>
+                    <div className={`mt-2 text-[13px] leading-6 ${textSecondary}`}>
+                      Start with guest review. Keep saved history and repeated submissions behind account access.
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <AnalysisShowcase compact />
+            <div className="lg:translate-y-6">
+              <AnalysisShowcase compact />
+            </div>
           </motion.div>
         </section>
 
@@ -156,12 +212,26 @@ export function LoginPage() {
                 <p className={`mt-2 text-[13px] leading-6 ${textSecondary}`}>
                   {tab === "login"
                     ? "Continue to your review dashboard and recent scans."
-                    : "Start with the free plan and upgrade only if you need more volume."}
+                    : "Start with the free plan and add saved review history when you need it."}
                 </p>
               </div>
-              <div className="hidden rounded-2xl border border-blue-200 bg-blue-50 px-3 py-2 text-right dark:border-blue-500/20 dark:bg-blue-500/10 sm:block">
-                <div className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>Plan</div>
-                <div className="text-[13px] font-semibold text-blue-700 dark:text-blue-200">Free</div>
+              <div className="hidden rounded-[1.35rem] border border-blue-200 bg-blue-50 px-3 py-2 text-right dark:border-blue-500/20 dark:bg-blue-500/10 sm:block">
+                <div className={`text-[10px] uppercase tracking-[0.16em] ${textMuted}`}>Access</div>
+                <div className="text-[13px] font-semibold text-blue-700 dark:text-blue-200">Free workspace</div>
+              </div>
+            </div>
+
+            <div className={`mb-5 rounded-[1.4rem] border px-4 py-3 ${isDark ? "border-white/10 bg-white/4" : "border-slate-200 bg-slate-50"}`}>
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-700 dark:bg-amber-500/12 dark:text-amber-200">
+                  <CheckCircledIcon className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className={`text-[12px] font-semibold ${textPrimary}`}>Sign-in only affects workflow, not the detector itself.</div>
+                  <p className={`mt-1 text-[12.5px] leading-6 ${textSecondary}`}>
+                    Use guest mode to test the surface first. Create an account when you need saved history and repeat review trails.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -206,7 +276,7 @@ export function LoginPage() {
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="John Doe"
+                      placeholder="Amina Rahman"
                       className={`w-full rounded-2xl border px-4 py-3.5 outline-none transition-all ${inputBase}`}
                     />
                   </motion.div>
@@ -216,12 +286,12 @@ export function LoginPage() {
               <div>
                 <label className={`mb-2 block ${textSecondary}`}>Email Address</label>
                 <div className="relative">
-                  <Mail className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 ${textMuted}`} />
+                  <EnvelopeClosedIcon className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 ${textMuted}`} />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@company.com"
+                    placeholder="you@institution.edu"
                     className={`w-full rounded-2xl border py-3.5 pl-11 pr-4 outline-none transition-all ${inputBase}`}
                   />
                 </div>
@@ -237,7 +307,7 @@ export function LoginPage() {
                   )}
                 </div>
                 <div className="relative">
-                  <Lock className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 ${textMuted}`} />
+                  <LockClosedIcon className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 ${textMuted}`} />
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
@@ -250,7 +320,7 @@ export function LoginPage() {
                     onClick={() => setShowPassword((value) => !value)}
                     className={`absolute right-4 top-1/2 -translate-y-1/2 transition-colors ${textMuted} hover:text-blue-600 dark:hover:text-blue-300`}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? <EyeClosedIcon className="h-4 w-4" /> : <EyeOpenIcon className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
@@ -269,7 +339,7 @@ export function LoginPage() {
                 ) : (
                   <>
                     {tab === "login" ? "Sign In" : "Create Account"}
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRightIcon className="h-4 w-4" />
                   </>
                 )}
               </button>
@@ -284,7 +354,7 @@ export function LoginPage() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { label: "Google", icon: "G" },
-                { label: "GitHub", icon: <Github className="h-4 w-4" /> },
+                { label: "GitHub", icon: <GitHubLogoIcon className="h-4 w-4" /> },
               ].map((item) => (
                 <button
                   key={item.label}
